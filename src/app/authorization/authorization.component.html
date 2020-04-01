@@ -1,7 +1,7 @@
 <section class="wrapper">
-  <div [ngClass]="'card registrationForm'">
-    <h2 [ngClass]="'card_title'">Registration</h2>
-    <p [ngClass]="'card_subtitle'">Create a new account</p>
+  <div [ngClass]="'card authorizationForm'">
+    <h2 [ngClass]="'card_title'">Authorization</h2>
+    <p [ngClass]="'card_subtitle'">Sing in your account</p>
 
     <div class="loader"></div>
 
@@ -22,15 +22,7 @@
         </div>
       </div>
 
-      <div class="formField_withIcon">
-        <img src="../../assets/icons/lock-black-18dp.svg" [ngClass]="'formField_withIcon-icon'" alt="">
-        <div [ngClass]="'formField'">
-          <input [ngClass]="'formField_input'" type="password" id="repeatPassword" placeholder="Repeat your password">
-          <label for="repeatPassword">Repeat password</label>
-        </div>
-      </div>
-
-      <button [ngClass]="'button'">Registration</button>
+      <button [ngClass]="'button'">Login in</button>
     </form>
   </div>
 </section>

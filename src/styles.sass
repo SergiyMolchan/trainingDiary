@@ -8,3 +8,144 @@ body
 h1, h2, h3, h4, h5, h6
   font-family: 'Open Sans', serif
   margin: 0
+
+.wrapper
+  width: 100%
+  display: flex
+  justify-content: center
+
+.card
+  transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1)
+  padding: 16px
+  border-radius: 4px
+  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12)
+  &_title
+    font-family: 'Open Sans', serif
+    font-weight: 500
+    color: rgba(0, 0, 0, 0.87)
+    font-size: 24px
+    margin-bottom: 10px
+    text-align: center
+  &_subtitle
+    text-align: center
+    margin: 0 0 10px 0
+    font-family: 'Open Sans', serif
+    color: rgba(0, 0, 0, 0.54)
+    font-size: 14px
+
+.formField
+  width: 100%
+  position: relative
+  color: black
+  padding: 10px 0 0 0
+  margin: 15px 0
+  min-width: 280px
+  background: white
+  font-size: 20px
+  border-bottom: 1px solid silver
+  overflow: hidden
+  label
+    transition: 0.15s
+    background: inherit
+    text-align: start
+    vertical-align: middle
+    position: absolute
+    width: 100%
+    padding: 0 0 7px 0
+    left: 0
+    bottom: 0
+  &_input
+    border: none
+    outline-offset: -2px
+    background: transparent
+    color: gray
+    outline: none
+    padding: 7px 0
+    margin: 0
+    width: 100%
+    max-width: 100%
+    vertical-align: bottom
+    text-align: inherit
+    letter-spacing: normal
+    word-spacing: normal
+    text-transform: none
+    text-indent: 0
+    text-shadow: none
+    &:focus
+      color: black
+      ~label
+        color: #673ab7
+        transform: translateY(-26px)
+        font-size: 14px
+        background: transparent
+        &::after
+          content: ''
+          display: block
+          position: absolute
+          bottom: -26.4px
+          width: 100%
+          border-bottom: 3px solid #673ab7
+  &_withIcon
+    width: 100%
+    display: flex
+    align-items: center
+    flex-direction: row
+    &-icon
+      margin: 15px 5px 0 5px
+      width: 30px
+      height: 30px
+
+.button
+  width: 100%
+  background: #673ab7
+  color: white
+  box-sizing: border-box
+  position: relative
+  user-select: none
+  cursor: pointer
+  outline: none
+  border: none
+  display: inline-block
+  white-space: nowrap
+  text-decoration: none
+  vertical-align: baseline
+  text-align: center
+  margin: 0
+  min-width: 64px
+  line-height: 36px
+  padding: 0 16px
+  border-radius: 4px
+  overflow: visible
+  transform: translate3d(0, 0, 0)
+  transition: 0.15s
+  &:disabled
+    background: silver
+    color: gray
+  &:focus
+    transform: scale(0.95)
+    background: rgba(103,58,183, 0.8)
+
+.loader
+  height: 5px
+  width: 100%
+  background: rgb(72, 101, 124)
+  overflow: hidden
+  &:before
+    content: ''
+    position: relative
+    display: block
+    background: #90caf9
+    height: 100%
+    animation: loading 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite
+
+@keyframes loading
+  0%
+    left: -35%
+    right: 100%
+  60%
+    left: 100%
+    right: -90%
+  100%
+    left: 100%
+    right: -90%
+
