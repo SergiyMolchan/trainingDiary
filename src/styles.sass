@@ -1,18 +1,38 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~normalize.css"
+@import "variables"
+
 body
   margin: 0
   padding: 0
-  font-family: 'Roboto', serif
+  font-family: $primaryFont
 
-h1, h2, h3, h4, h5, h6
-  font-family: 'Open Sans', serif
+h1, h2, h3, h4, h5, h6, input, button
+  font-family: $secondaryFont
   margin: 0
 
 .wrapper
   width: 100%
   display: flex
   justify-content: center
+  &-list
+    margin: 0
+    padding: 0 0 5px 0
+    list-style: none
+    justify-content: flex-start
+    overflow-y: scroll
+    max-height: 50vh
+    border-bottom: 1px solid silver
+  &-list-horizontal
+    margin: 0
+    padding: 0
+    list-style: none
+    flex-direction: row
+    flex-wrap: wrap
+    justify-content: flex-start
+    border-top: 1px solid silver
+    li
+      margin: 0 5px
 
 .card
   transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1)
@@ -20,23 +40,62 @@ h1, h2, h3, h4, h5, h6
   border-radius: 4px
   box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12)
   &_title
-    font-family: 'Open Sans', serif
+    font-family: $secondaryFont
     font-weight: 500
-    color: rgba(0, 0, 0, 0.87)
+    color: $primaryTextColor
     font-size: 24px
     margin-bottom: 10px
     text-align: center
   &_subtitle
     text-align: center
     margin: 0 0 10px 0
-    font-family: 'Open Sans', serif
-    color: rgba(0, 0, 0, 0.54)
+    font-family: $primaryFont
+    color: $secondaryTextColor
     font-size: 14px
+  &-position
+    @include cardPosition()
+
+.title
+  font-family: $secondaryFont
+  font-weight: 300
+  color: $primaryTextColor
+  margin-bottom: 10px
+  &-app
+    color: white
+    font-size: 32px
+  &-extraLarge
+    font-size: 28px
+  &-large
+    font-size: 24px
+  &-medium
+    font-size: 20px
+  &-small
+    font-size: 18px
+  &-extraSmall
+    font-size: 16px
+
+.subtitle
+  margin: 0 0 10px 0
+  font-family: $primaryFont
+  color: $secondaryTextColor
+  font-size: 14px
+
+.text
+  margin: 5px 0
+  padding: 0
+  color: $primaryTextColor
+  font-family: $primaryFont
+
+.subtext
+  margin: 5px 0
+  padding: 0
+  color: $secondaryTextColor
+  font-family: $secondaryFont
 
 .formField
   width: 100%
   position: relative
-  color: black
+  color: $primaryTextColor
   padding: 10px 0 0 0
   margin: 15px 0
   min-width: 280px
@@ -72,9 +131,9 @@ h1, h2, h3, h4, h5, h6
     text-indent: 0
     text-shadow: none
     &:focus
-      color: black
+      color: $primaryTextColor
       ~label
-        color: #673ab7
+        color: $primaryColor
         transform: translateY(-26px)
         font-size: 14px
         background: transparent
@@ -84,7 +143,7 @@ h1, h2, h3, h4, h5, h6
           position: absolute
           bottom: -26.4px
           width: 100%
-          border-bottom: 3px solid #673ab7
+          border-bottom: 3px solid $primaryColor
   &_withIcon
     width: 100%
     display: flex
@@ -97,8 +156,8 @@ h1, h2, h3, h4, h5, h6
 
 .button
   width: 100%
-  background: #673ab7
-  color: white
+  background: $primaryColor
+  color: $buttonTextColor
   box-sizing: border-box
   position: relative
   user-select: none
@@ -121,9 +180,32 @@ h1, h2, h3, h4, h5, h6
   &:disabled
     background: silver
     color: gray
-  &:focus
+    cursor: default
+  &:active
     transform: scale(0.95)
-    background: rgba(103,58,183, 0.8)
+    background: $primaryColor
+    opacity: 80%
+  &-icon
+    display: flex
+    justify-content: center
+    align-items: center
+    border-radius: 50%
+    padding: 0
+    margin: 5px
+    width: 40px
+    min-width: 40px
+    height: 40px
+    background: silver
+    position: relative
+    user-select: none
+    cursor: pointer
+    outline: none
+    border: none
+    img
+      width: 35px
+      height: 35px
+    &:active
+      background: gray
 
 .loader
   height: 5px
@@ -134,7 +216,7 @@ h1, h2, h3, h4, h5, h6
     content: ''
     position: relative
     display: block
-    background: #90caf9
+    background: $secondaryColor
     height: 100%
     animation: loading 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite
 

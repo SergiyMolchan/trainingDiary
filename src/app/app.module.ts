@@ -6,13 +6,15 @@ import { AppComponent } from './app.component';
 import { AppbarComponent } from './appbar/appbar.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { AuthorizationComponent } from './authorization/authorization.component';
+import { NewWorkoutComponent } from './new-workout/new-workout.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AppbarComponent,
     RegistrationComponent,
-    AuthorizationComponent
+    AuthorizationComponent,
+    NewWorkoutComponent
   ],
   imports: [
     BrowserModule,
