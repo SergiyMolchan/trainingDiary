@@ -2,8 +2,8 @@
   <h1 [ngClass]="'title-app'">Training Diary</h1>
   <nav [ngClass]="'navList'">
     <ul>
-      <li [ngClass]="'navList_item navList_item-active'"><a href="#">Registration</a></li>
-      <li [ngClass]="'navList_item'"><a href="#">Login</a></li>
+      <li [ngClass]="'navList_item'"><a [routerLink]="'/registration'" [routerLinkActive]="'navList_item-active'">Registration</a></li>
+      <li [ngClass]="'navList_item'"><a [routerLink]="'/authorization'" [routerLinkActive]="'navList_item-active'">Login</a></li>
     </ul>
   </nav>
 </header>

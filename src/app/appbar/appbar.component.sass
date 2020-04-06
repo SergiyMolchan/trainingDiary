@@ -34,16 +34,10 @@
     &:hover
       a
         border-radius: 5px
-        background: rgba(255, 255, 255, 0.1)
+        background: rgba(255, 255, 255, 0.05)
     &-active
-      &::after
-        content: ''
-        display: block
-        position: relative
-        top: 5px
-        width: 100%
-        height: 2px
-        background: white
+      border-radius: 5px
+      background: rgba(255, 255, 255, 0.1)
 
 @media screen and (max-width: $screenMedium)
   .title

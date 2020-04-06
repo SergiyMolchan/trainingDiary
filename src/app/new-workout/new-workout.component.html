@@ -22,11 +22,87 @@
           <li>
             <button [ngClass]="'button button-icon'"><img src="../../assets/icons/add-24px.svg" alt="add"></button>
           </li>
+
+          <li>
+            <p [ngClass]="'text'" [ngStyle]="{'color': 'red'}">60<span [ngClass]="'subtext'"> max kg</span></p>
+            <p [ngClass]="'text'" [ngStyle]="{'color': 'green'}">40<span [ngClass]="'subtext'"> all reps</span></p>
+          </li>
+
         </ul>
       </li>
 
-      
+      <li [ngClass]="'card'">
+        <h2 [ngClass]="'title title-small'">Подтягивания</h2>
+        <p [ngClass]="'subtitle'">Грудь, Передняя дельта</p>
+
+        <form action="#" autocomplete="off" [ngClass]="'wrapper wrapper-column'">
+
+            <div [ngClass]="'counterField'">
+              <label for="weight">Weight, kg: </label>
+              <div [ngClass]="'counterField-input'">
+                <button [ngClass]="'button button-icon button-counter'"><img src="../../assets/icons/remove-black-18dp.svg" alt="remove"></button>
+                <input type="number" readonly id="weight" value="10">
+                <button [ngClass]="'button button-icon button-counter'"><img src="../../assets/icons/add-24px.svg" alt="add"></button>
+              </div>
+            </div>
+
+            <div [ngClass]="'counterField'">
+              <label for="reps">Reps: </label>
+              <div [ngClass]="'counterField-input'">
+                <button [ngClass]="'button button-icon button-counter'"><img src="../../assets/icons/remove-black-18dp.svg" alt="remove"></button>
+                <input type="number" readonly id="reps" value="10">
+                <button [ngClass]="'button button-icon button-counter'"><img src="../../assets/icons/add-24px.svg" alt="add"></button>
+              </div>
+            </div>
+
+          <button [ngClass]="'button button-outlined'">save</button>
+        </form>
+<!--        <ul [ngClass]="'wrapper wrapper-list-horizontal'">-->
+<!--          <li>-->
+<!--            <p [ngClass]="'text'">60<span [ngClass]="'subtext'">kg</span></p>-->
+<!--            <p [ngClass]="'text'">10<span [ngClass]="'subtext'">reps</span></p>-->
+<!--          </li>-->
+
+<!--          <li>-->
+<!--            <button [ngClass]="'button button-icon'"><img src="../../assets/icons/add-24px.svg" alt="add"></button>-->
+<!--          </li>-->
+<!--        </ul>-->
+      </li>
 
     </ul>
+
+    <div [ngClass]="'wrapper'">
+
+      <div [ngClass]="'formField'">
+        <input [ngClass]="'formField_input'" type="text" id="exercise" placeholder="Enter your exercise">
+        <label for="exercise">Exercise</label>
+      </div>
+
+      <div [ngClass]="'wrapper-row'">
+
+        <div [ngClass]="'chip'">
+          <input type="checkbox" value="legs" id="chip2">
+          <label for="chip2">Legs</label>
+        </div>
+
+        <div [ngClass]="'chip'">
+          <input type="checkbox" value="backMuscles" id="chip1">
+          <label for="chip1">Back muscles</label>
+        </div>
+
+        <div [ngClass]="'chip'">
+          <input type="checkbox" value="biceps" id="chip">
+          <label for="chip">Biceps</label>
+        </div>
+      </div>
+    <button [ngClass]="'button button-outlined'">add exercise</button>
+    </div>
+
+    <div [ngClass]="'formField'">
+      <input [ngClass]="'formField_input'" type="number" id="userWeight" placeholder="Enter your your weight">
+      <label for="userWeight">Your weight</label>
+    </div>
+
+    <button [ngClass]="'button'">complete the workout</button>
   </div>
 </section>

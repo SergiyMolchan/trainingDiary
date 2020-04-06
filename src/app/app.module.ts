@@ -7,6 +7,7 @@ import { AppbarComponent } from './appbar/appbar.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { AuthorizationComponent } from './authorization/authorization.component';
 import { NewWorkoutComponent } from './new-workout/new-workout.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,9 @@ import { NewWorkoutComponent } from './new-workout/new-workout.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -15,6 +15,13 @@ h1, h2, h3, h4, h5, h6, input, button
   width: 100%
   display: flex
   justify-content: center
+  flex-wrap: wrap
+  &-row
+    flex-direction: row
+    align-items: center
+  &-column
+    flex-direction: column
+    align-items: center
   &-list
     margin: 0
     padding: 0 0 5px 0
@@ -30,6 +37,7 @@ h1, h2, h3, h4, h5, h6, input, button
     flex-direction: row
     flex-wrap: wrap
     justify-content: flex-start
+    align-items: center
     border-top: 1px solid silver
     li
       margin: 0 5px
@@ -63,6 +71,7 @@ h1, h2, h3, h4, h5, h6, input, button
   &-app
     color: white
     font-size: 32px
+    font-weight: 300
   &-extraLarge
     font-size: 28px
   &-large
@@ -91,6 +100,16 @@ h1, h2, h3, h4, h5, h6, input, button
   padding: 0
   color: $secondaryTextColor
   font-family: $secondaryFont
+
+.message
+  padding: 5px 10px
+  margin: 10px 0
+  border: 1px solid transparent
+  border-radius: 5px
+  &-error
+    color: #721c24
+    background-color: #f8d7da
+    border-color: #f5c6cb
 
 .formField
   width: 100%
@@ -130,6 +149,12 @@ h1, h2, h3, h4, h5, h6, input, button
     text-transform: none
     text-indent: 0
     text-shadow: none
+    &:not(:placeholder-shown)
+      ~label
+        color: $primaryColor
+        transform: translateY(-26px)
+        font-size: 14px
+        background: transparent
     &:focus
       color: $primaryTextColor
       ~label
@@ -154,7 +179,53 @@ h1, h2, h3, h4, h5, h6, input, button
       width: 30px
       height: 30px
 
+.counterField
+  margin: 0 0 5px 0
+  display: flex
+  flex-direction: row
+  align-items: center
+  &-input
+    align-items: center
+    display: flex
+    flex-direction: row
+    input
+      margin: 0
+      padding: 0
+      max-width: 60px
+      max-height: 40px
+      width: 60px
+      height: 40px
+      text-align: center
+      font-size: 24px
+      border: 3px solid $primaryColor
+      outline: none
+      border-radius: 10px
+  label
+    font-size: 20px
+    min-width: 100px
+
+.chip
+  display: inline-block
+  padding: 7px 0
+  margin: 0 5px
+  border: 2px solid $primaryColor
+  border-radius: 40px
+  user-select: none
+  overflow: hidden
+  input
+    display: none
+    &:checked
+      ~ label
+        background: #673ab7
+        color: white
+  label
+    width: 100%
+    color: $primaryColor
+    cursor: pointer
+    padding: 7px 15px
+
 .button
+  text-transform: uppercase
   width: 100%
   background: $primaryColor
   color: $buttonTextColor
@@ -181,10 +252,11 @@ h1, h2, h3, h4, h5, h6, input, button
     background: silver
     color: gray
     cursor: default
+  &:hover
+    transform: scale(0.98)
   &:active
-    transform: scale(0.95)
-    background: $primaryColor
     opacity: 80%
+    background: $primaryColor
   &-icon
     display: flex
     justify-content: center
@@ -195,18 +267,28 @@ h1, h2, h3, h4, h5, h6, input, button
     width: 40px
     min-width: 40px
     height: 40px
-    background: silver
+    background: transparent
     position: relative
     user-select: none
     cursor: pointer
     outline: none
-    border: none
+    border: 1px solid $primaryColor
     img
-      width: 35px
-      height: 35px
+      width: 90%
+      height: 90%
+      filter: invert(0.5)
+  &-counter
+    min-width: 30px
+    width: 30px
+    height: 30px
+  &-outlined
+    background: transparent
+    border: 1px solid $primaryColor
+    color: $primaryColor
+    font-weight: 500
+    font-size: 20px
     &:active
-      background: gray
-
+      background: transparent
 .loader
   height: 5px
   width: 100%

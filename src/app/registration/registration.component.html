@@ -5,11 +5,11 @@
 
     <div class="loader"></div>
 
-    <form action="#" autocomplete="off">
+    <form action="#" autocomplete="off" [formGroup]="form" (ngSubmit)="submit()">
       <div class="formField_withIcon">
         <img src="../../assets/icons/how_to_reg-black-18dp.svg" [ngClass]="'formField_withIcon-icon'" alt="">
         <div [ngClass]="'formField'">
-          <input [ngClass]="'formField_input'" type="text" id="login" placeholder="Enter your login">
+          <input [ngClass]="'formField_input'" type="text" id="login" placeholder="Enter your login" formControlName="login">
           <label for="login">Login</label>
         </div>
       </div>
@@ -17,7 +17,7 @@
       <div class="formField_withIcon">
         <img src="../../assets/icons/lock-black-18dp.svg" [ngClass]="'formField_withIcon-icon'" alt="">
         <div [ngClass]="'formField'">
-          <input [ngClass]="'formField_input'" type="password" id="password" placeholder="Enter your password">
+          <input [ngClass]="'formField_input'" type="password" id="password" placeholder="Enter your password" formControlName="password">
           <label for="password">Password</label>
         </div>
       </div>
@@ -30,7 +30,12 @@
         </div>
       </div>
 
-      <button [ngClass]="'button'">Registration</button>
+      <button [ngClass]="'button'" type="submit" [disabled]="form.invalid">Registration</button>
     </form>
+
+    <div [ngClass]="'message message-error'">
+      <p>error message</p>
+    </div>
+
   </div>
 </section>
