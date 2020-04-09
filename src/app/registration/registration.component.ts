@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
+import {group} from '@angular/animations';
 
 @Component({
   selector: 'app-registration',
@@ -18,14 +19,32 @@ export class RegistrationComponent implements OnInit {
       password: new FormControl('', [
         Validators.required,
         Validators.minLength(6)
-      ])
-    });
+      ]),
+      confirmPassword: new FormControl('', [
+        Validators.required
+      ])}
+    );
   }
 
   submit() {
+    console.log(this.form);
     if (this.form.valid) {
       const FormData = {...this.form.value};
       console.log(FormData);
+      this.form.reset();
     }
+  }
+}
+class CustomValidators {
+  static confirmPassword(password) {
+    return (control: FormControl): { [key: string]: boolean } => {
+      const confirmPassword = control.value;
+      console.log(control);
+      console.log(password);
+      if (password !== confirmPassword) {
+        return {confirmPass: true};
+      }
+      return null;
+    };
   }
 }
