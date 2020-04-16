@@ -51,7 +51,7 @@ module.exports.regitration = async (req, res) => {
 module.exports.login = async (req, res) => {
   try {
     const candidate = await User.findOne({login: req.body.login});
-    const timeLifeOfToken = 60 * 60;
+    const timeLifeOfToken = 60 * 60 * 24; // time life of token 1 day
 
     if(candidate){
       const passwordResult = bcrypt.compareSync(req.body.password, candidate.password);
