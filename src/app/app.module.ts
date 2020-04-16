@@ -4,24 +4,23 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AppbarComponent } from './appbar/appbar.component';
-import { RegistrationComponent } from './registration/registration.component';
-import { AuthorizationComponent } from './authorization/authorization.component';
-import { NewWorkoutComponent } from './new-workout/new-workout.component';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {AuthorizationModule} from './authorization/authorization.module';
+import {SharedModule} from './shared/shared.module';
+import {RegistrationModule} from './registration/registration.module';
+import {NewWorkoutModule} from './new-workout/new-workout.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     AppbarComponent,
-    RegistrationComponent,
-    AuthorizationComponent,
-    NewWorkoutComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule
+    SharedModule,
+    AuthorizationModule,
+    RegistrationModule,
+    NewWorkoutModule
   ],
   providers: [],
   bootstrap: [AppComponent]
