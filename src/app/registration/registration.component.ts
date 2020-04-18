@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {AbstractControl, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
-import {group} from '@angular/animations';
+import { FormControl, FormGroup, Validators} from '@angular/forms';
+import { RegistrationService, NewUser } from './registration.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -9,9 +10,11 @@ import {group} from '@angular/animations';
 })
 export class RegistrationComponent implements OnInit {
 
-  constructor() { }
+  constructor(private registrationService: RegistrationService, private  router: Router) { }
 
   form: FormGroup;
+  loading = false;
+  error = '';
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -27,14 +30,24 @@ export class RegistrationComponent implements OnInit {
   }
 
   submit() {
-    console.log(this.form);
+    this.loading = true;
     if (this.form.valid) {
-      const FormData = {...this.form.value};
-      console.log(FormData);
-      this.form.reset();
+      const newUser: NewUser = {...this.form.value};
+      this.registrationService.registration(newUser)
+        .subscribe( () => {
+          this.loading = false;
+          this.form.reset();
+          this.error = '';
+          localStorage.setItem('login', newUser.login);
+          this.router.navigate(['/authorization']);
+        }, error => {
+          this.error = error.error.message;
+          this.loading = false;
+        });
     }
   }
 }
+
 class CustomValidators {
   static confirmPassword(password) {
     return (control: FormControl): { [key: string]: boolean } => {

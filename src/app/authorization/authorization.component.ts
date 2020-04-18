@@ -11,10 +11,10 @@ export class AuthorizationComponent implements OnInit {
   constructor() { }
 
   form: FormGroup;
-
+  login: string = localStorage.getItem('login');
   ngOnInit(): void {
     this.form = new FormGroup({
-      login: new FormControl('', [Validators.required]),
+      login: new FormControl(this.login || '', [Validators.required]),
       password: new FormControl('', [Validators.required])
     });
   }

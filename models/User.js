@@ -32,7 +32,7 @@ module.exports.regitration = async (req, res) => {
       res.status(409).json({success: false, message: "Login is already taken."});
     } else if (!req.body.password || req.body.password.length < 6) {
       res.status(409).json({success: false, message: "Enter your password more 6 symbols."});
-    } else if (req.body.password !== req.body.repeatPassword){
+    } else if (req.body.password !== req.body.confirmPassword){
       res.status(409).json({success: false, message: "Passwords must be identical."});
     } else {
       const salt = bcrypt.genSaltSync(7);

@@ -3,7 +3,7 @@
     <h2 [ngClass]="'card_title'">Registration</h2>
     <p [ngClass]="'card_subtitle'">Create a new account</p>
 
-    <div class="loader"></div>
+    <div *ngIf="loading" class="loader"></div>
 
     <form action="#" autocomplete="off" [formGroup]="form" (ngSubmit)="submit()">
       <div class="formField_withIcon">
@@ -33,11 +33,12 @@
       <button [ngClass]="'button'" type="submit" [disabled]="form.invalid">Registration</button>
     </form>
 
-    <div *ngIf="form.invalid && form.touched" [ngClass]="'message message-error'">
+    <div *ngIf="form.invalid && form.touched || !!error" [ngClass]="'message message-error'">
       <p *ngIf="form.get('login').errors?.required && form.get('login').touched">Login field is required.</p>
       <p *ngIf="form.get('password').errors?.required && form.get('password').touched">Password field is required.</p>
       <p *ngIf="form.get('password').errors?.minlength && form.get('password').touched">Min length password {{6}} symbols.</p>
       <p *ngIf="form.get('confirmPassword').touched">Password mismatch.</p>
+      <p *ngIf="!!error">{{error}}</p>
     </div>
 
   </div>
