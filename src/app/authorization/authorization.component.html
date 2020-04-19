@@ -3,7 +3,7 @@
     <h2 [ngClass]="'card_title'">Authorization</h2>
     <p [ngClass]="'card_subtitle'">Sing in your account</p>
 
-    <div class="loader"></div>
+    <div *ngIf="this.loading" class="loader"></div>
 
     <form action="#" autocomplete="off" [formGroup]="form" (ngSubmit)="submit()">
       <div class="formField_withIcon">
@@ -24,9 +24,10 @@
 
       <button [ngClass]="'button'" type="submit" [disabled]="form.invalid">Login in</button>
     </form>
-    <div *ngIf="form.invalid && form.touched" [ngClass]="'message message-error'">
+    <div *ngIf="form.invalid && form.touched || !!this.error" [ngClass]="'message message-error'">
       <p *ngIf="form.get('login').errors?.required && form.get('login').touched">Login field is required.</p>
       <p *ngIf="form.get('password').errors?.required && form.get('password').touched">Password field is required.</p>
+      <p *ngIf="!!this.error">{{this.error.error.message}}</p>
     </div>
   </div>
 </section>

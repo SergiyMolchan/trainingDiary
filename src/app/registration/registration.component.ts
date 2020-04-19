@@ -52,8 +52,6 @@ class CustomValidators {
   static confirmPassword(password) {
     return (control: FormControl): { [key: string]: boolean } => {
       const confirmPassword = control.value;
-      console.log(control);
-      console.log(password);
       if (password !== confirmPassword) {
         return {confirmPass: true};
       }
