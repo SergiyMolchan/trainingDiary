@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {tap} from 'rxjs/operators';
+import {Router} from '@angular/router';
 
 export interface AuthData {
   login: string;
@@ -10,7 +11,10 @@ export interface AuthData {
 
 @Injectable({providedIn: 'root'})
 export class AuthorizationService {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router
+    ) {}
 
   get token(): string {
     return localStorage.getItem('token');
@@ -26,6 +30,7 @@ export class AuthorizationService {
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('expirationDate');
+    this.router.navigate(['/authorization']);
   }
 
   autoLogin() {
@@ -36,6 +41,7 @@ export class AuthorizationService {
       } else {
         // @ts-ignore
         this.autoLogout((expirationDate.getTime() - new Date()) / 1000);
+        this.router.navigate(['/new-workout']);
       }
     } else {
       this.logout();
@@ -47,7 +53,6 @@ export class AuthorizationService {
   }
 
   autoLogout(time) {
-    console.log(time);
     setTimeout(() => {
       this.logout();
     }, time * 1000);

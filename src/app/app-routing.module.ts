@@ -6,10 +6,10 @@ import {AuthorizationComponent} from './authorization/authorization.component';
 import {ProtectedRoutes} from './protected-routes.guard';
 
 const routes: Routes = [
-  {path: '', component: NewWorkoutComponent},
+  {path: '', component: NewWorkoutComponent, canActivate: [ProtectedRoutes]},
+  {path: 'new-workout', component: NewWorkoutComponent, canActivate: [ProtectedRoutes]},
   {path: 'authorization', component: AuthorizationComponent},
   {path: 'registration', component: RegistrationComponent},
-  {path: 'new-workout', component: NewWorkoutComponent, canActivate: [ProtectedRoutes]},
   {path: '**', redirectTo: '/'}
 ];
 

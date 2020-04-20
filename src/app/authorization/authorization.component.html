@@ -27,7 +27,7 @@
     <div *ngIf="form.invalid && form.touched || !!this.error" [ngClass]="'message message-error'">
       <p *ngIf="form.get('login').errors?.required && form.get('login').touched">Login field is required.</p>
       <p *ngIf="form.get('password').errors?.required && form.get('password').touched">Password field is required.</p>
-      <p *ngIf="!!this.error">{{this.error.error.message}}</p>
+      <p *ngIf="!!this.error">{{this.error}}</p>
     </div>
   </div>
 </section>
