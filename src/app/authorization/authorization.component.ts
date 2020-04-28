@@ -11,15 +11,16 @@ import {Router} from '@angular/router';
 })
 export class AuthorizationComponent implements OnInit {
 
+  form: FormGroup;
+  login: string = localStorage.getItem('login');
+  loading = false;
+  error = '';
+
   constructor(
     private authorizationService: AuthorizationService,
     private router: Router
   ) { }
 
-  form: FormGroup;
-  login: string = localStorage.getItem('login');
-  loading = false;
-  error = '';
 
   ngOnInit(): void {
     this.form = new FormGroup({

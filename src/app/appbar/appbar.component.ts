@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {AuthorizationService} from '../authorization/authorization.service';
 
 @Component({
@@ -13,11 +13,36 @@ export class AppbarComponent implements OnInit, OnChanges {
     private authorizationService: AuthorizationService,
   ) { }
 
-  @Input() isAuth: boolean;
-  logout: any = () => this.authorizationService.logout();
+  isOpenMenu = false;
+  onOpenMenu: any = () => this.isOpenMenu = true;
+  onCloseMenu: any = () => this.isOpenMenu = false;
+  logout: any = () => {
+    this.onCloseMenu();
+    this.authorizationService.logout();
+  };
 
-  ngOnChanges() {}
+  @ViewChild('menuElement') insideElement;
+  @ViewChild('menuButton') menuButton;
+  @HostListener('document:click', ['$event.target'])
 
-  ngOnInit(): void {}
+  public onClick(targetElement) {
+    if (this.isOpenMenu === true) {
+      const clickedInside = this.insideElement.nativeElement.contains(targetElement);
+      const menuBtn = this.menuButton.nativeElement;
+      if (clickedInside) {
+        this.onCloseMenu();
+      } else {
+        if (targetElement !== menuBtn) {
+          this.onCloseMenu();
+        }
+      }
+    }
+  }
+
+  ngOnChanges() {
+  }
+
+  ngOnInit(): void {
+  }
 
 }

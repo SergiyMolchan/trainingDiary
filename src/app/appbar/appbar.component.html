@@ -1,14 +1,22 @@
 <header [ngClass]="'navBar'">
-  <h1 [ngClass]="'title-app'">Training Diary</h1>
+  <h1 [ngClass]="'title title-app'">Training Diary</h1>
   <nav [ngClass]="'navList'">
-    <ul *ngIf="!isAuth">
+    <ul *ngIf="!authorizationService.isAuth() else menuBtn">
       <li [ngClass]="'navList_item'"><a [routerLink]="'/registration'" [routerLinkActive]="'navList_item-active'">Registration</a></li>
       <li [ngClass]="'navList_item'"><a [routerLink]="'/authorization'" [routerLinkActive]="'navList_item-active'">Login</a></li>
-    </ul>
-    <ul *ngIf="isAuth">
-      <li [ngClass]="'navList_item'"><a [routerLink]="'/new-workout'" [routerLinkActive]="'navList_item-active'">New workout</a></li>
-      <li [ngClass]="'navList_item'"><a (click)="logout()" [routerLinkActive]="'navList_item-active'">Logout</a></li>
-    </ul>
+     </ul>
+
+    <ng-template #menuBtn>
+      <ul>
+        <li><button #menuButton (click)="onOpenMenu()" [ngClass]="'button button-icon button-icon-menu'"><img src="../../assets/icons/menu.svg" alt="menu"></button></li>
+      </ul>
+    </ng-template>
   </nav>
+
+  <menu [hidden]="!authorizationService.isAuth()" *ngIf="isOpenMenu" [ngClass]="'menu'" #menuElement>
+    <li [ngClass]="'menu_item menu_item-active'"><a [routerLink]="'/new-workout'" [routerLinkActive]="'menu_item-active'">New workout</a></li>
+    <li [ngClass]="'menu_item'"><a (click)="logout()">Logout</a></li>
+  </menu>
+
 </header>
 

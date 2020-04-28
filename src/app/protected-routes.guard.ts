@@ -14,7 +14,7 @@ export class ProtectedRoutes implements CanActivate{
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
-    if (this.authorizationService.isAuthentificated()) {
+    if (this.authorizationService.isAuth()) {
         return true;
     } else {
       this.authorizationService.logout();

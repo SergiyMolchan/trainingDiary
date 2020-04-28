@@ -280,6 +280,10 @@ h1, h2, h3, h4, h5, h6, input, button
       width: 90%
       height: 90%
       filter: invert(0.5)
+    &-menu
+      img
+        filter: invert(1)
+        pointer-events: none
   &-counter
     min-width: 30px
     width: 30px
@@ -316,3 +320,17 @@ h1, h2, h3, h4, h5, h6, input, button
     left: 100%
     right: -90%
 
+
+@media screen and (max-width: $screenMedium)
+  .title
+    font-size: 30px
+
+@media screen and (max-width: $screenSmall)
+  .title
+    font-size: 26px
+
+@media screen and (max-width: $screenExtraSmall)
+  .title
+    font-size: 20px
+    &-app
+      //visibility: hidden

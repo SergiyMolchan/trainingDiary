@@ -1,6 +1,7 @@
 @import '../../variables'
 
 .navBar
+  position: relative
   display: flex
   flex-wrap: nowrap
   justify-content: space-between
@@ -23,6 +24,8 @@
   ul
     display: flex
     list-style: none
+    align-items: center
+    margin: 0
   &_item
     font-size: 24px
     a
@@ -38,6 +41,36 @@
     &-active
       border-radius: 5px
       background: rgba(255, 255, 255, 0.1)
+
+.menu
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: flex-start
+  margin: 0
+  padding: 8px 0
+  position: absolute
+  right: 20px
+  top: 10px
+  background: white
+  border-radius: 5px
+  box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12)
+  &_item
+    margin: 0
+    padding: 0
+    width: 100%
+    list-style: none
+    a
+      display: block
+      margin: 0
+      padding: 5px 15px
+      color: black
+      cursor: pointer
+      text-decoration: none
+    &-active
+      background: rgba(0, 0, 0, 0.12)
+    &:hover
+      background: rgba(0, 0, 0, 0.08)
 
 @media screen and (max-width: $screenMedium)
   .title
@@ -55,8 +88,12 @@
       font-size: 18px
 
 @media screen and (max-width: $screenExtraSmall)
+  .navBar
+    padding: 5px 10px
+
   .title
-    font-size: 24px
+    font-size: 20px
+
   .navList
     &_item
       font-size: 16px
