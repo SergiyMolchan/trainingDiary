@@ -1,0 +1,46 @@
+<li [ngClass]="'card'">
+  <h2 [ngClass]="'title title-small'">{{exercise.title}}</h2>
+  <p [ngClass]="'subtitle'"><span *ngFor="let muscleGroup of exercise.muscleGroups">{{muscleGroup}} </span></p>
+
+  <ul [ngClass]="'wrapper wrapper-list-horizontal'">
+
+    <li *ngFor="let exerciseApproaches of exercise.exerciseApproaches">
+      <p [ngClass]="'text'">{{exerciseApproaches.weight}}<span [ngClass]="'subtext'">kg</span></p>
+      <p [ngClass]="'text'">{{exerciseApproaches.reps}}<span [ngClass]="'subtext'">reps</span></p>
+    </li>
+
+    <li>
+      <button (click)="onOpenAddExerciseApproachesFrom()" [ngClass]="'button button-icon'"><img src="../../../assets/icons/add-24px.svg" alt="add"></button>
+    </li>
+
+    <li>
+      <p [ngClass]="'text'" [ngStyle]="{'color': 'red'}">{{maxWeight(exercise) || 0}}<span [ngClass]="'subtext'"> max kg</span></p>
+      <p [ngClass]="'text'" [ngStyle]="{'color': 'green'}">{{allReps(exercise) || 0}}<span [ngClass]="'subtext'"> all reps</span></p>
+    </li>
+
+  </ul>
+
+  <form *ngIf="isAddExerciseApproaches" [formGroup]="addExerciseApproachesForm" action="#" autocomplete="off" [ngClass]="'wrapper wrapper-column'">
+
+    <div [ngClass]="'counterField'">
+      <label for="weight">Weight, kg: </label>
+      <div [ngClass]="'counterField-input'">
+        <button (click)="addWeight(-1)" [ngClass]="'button button-icon button-counter'"><img src="../../../assets/icons/remove-black-18dp.svg" alt="remove"></button>
+        <input type="number" id="weight" formControlName="weight">
+        <button (click)="addWeight(1)" [ngClass]="'button button-icon button-counter'"><img src="../../../assets/icons/add-24px.svg" alt="add"></button>
+      </div>
+    </div>
+
+    <div [ngClass]="'counterField'">
+      <label for="reps">Reps: </label>
+      <div [ngClass]="'counterField-input'">
+        <button (click)="addReps(-1)" [ngClass]="'button button-icon button-counter'"><img src="../../../assets/icons/remove-black-18dp.svg" alt="remove"></button>
+        <input type="number" readonly id="reps" formControlName="reps">
+        <button (click)="addReps(1)" [ngClass]="'button button-icon button-counter'"><img src="../../../assets/icons/add-24px.svg" alt="add"></button>
+      </div>
+    </div>
+
+    <button type="submit" (click)="saveExerciseApproaches()" [ngClass]="'button button-outlined'">save</button>
+  </form>
+
+</li>

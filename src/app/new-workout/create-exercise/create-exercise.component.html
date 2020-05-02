@@ -1,0 +1,21 @@
+<form [formGroup]="newExerciseForm" [ngClass]="'wrapper'">
+
+  <div [ngClass]="'formField'">
+    <input [ngClass]="'formField_input'" type="text" id="exercise" placeholder="Enter your exercise" formControlName="exerciseName">
+    <label for="exercise">Exercise</label>
+  </div>
+
+  <div [ngClass]="'wrapper-row'">
+
+    <div [ngClass]="'chip'" *ngFor="let muscleGroup of muscleGroups">
+      <input type="checkbox" value="{{muscleGroup}}" id="{{muscleGroup}}" (click)="addMuscleGroups(muscleGroup)">
+      <label for="{{muscleGroup}}">{{muscleGroup}}</label>
+    </div>
+
+  </div>
+  <button type="submit" (click)="saveExercise()" [ngClass]="'button button-outlined'">Save exercise</button>
+
+  <div *ngIf="newExerciseForm.invalid && newExerciseForm.touched || !!this.error" [ngClass]="'message message-error'" [ngStyle]="{'width': '100%'}">
+    <p *ngIf="!!this.error">{{this.error}}</p>
+  </div>
+</form>

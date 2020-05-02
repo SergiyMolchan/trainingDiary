@@ -10,7 +10,7 @@ import {AuthorizationService} from '../authorization/authorization.service';
 export class AppbarComponent implements OnInit, OnChanges {
 
   constructor(
-    private authorizationService: AuthorizationService,
+    public authorizationService: AuthorizationService,
   ) { }
 
   isOpenMenu = false;

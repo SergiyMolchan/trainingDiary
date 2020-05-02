@@ -1,108 +1,33 @@
 <section class="wrapper">
-  <div [ngClass]="'card card-position'">
+  <form [formGroup]="workoutForm" [ngClass]="'card card-position'">
     <h2 [ngClass]="'card_title'">New workout</h2>
     <p [ngClass]="'card_subtitle'">Record your workout</p>
 
     <ul [ngClass]="'wrapper-list'">
-
-      <li [ngClass]="'card'">
-        <h2 [ngClass]="'title title-small'">Жим штанги лежа</h2>
-        <p [ngClass]="'subtitle'">Грудь, Передняя дельта</p>
-        <ul [ngClass]="'wrapper wrapper-list-horizontal'">
-          <li>
-            <p [ngClass]="'text'">60<span [ngClass]="'subtext'">kg</span></p>
-            <p [ngClass]="'text'">10<span [ngClass]="'subtext'">reps</span></p>
-          </li>
-
-          <li>
-            <p [ngClass]="'text'">60<span [ngClass]="'subtext'">kg</span></p>
-            <p [ngClass]="'text'">10<span [ngClass]="'subtext'">reps</span></p>
-          </li>
-
-          <li>
-            <button [ngClass]="'button button-icon'"><img src="../../assets/icons/add-24px.svg" alt="add"></button>
-          </li>
-
-          <li>
-            <p [ngClass]="'text'" [ngStyle]="{'color': 'red'}">60<span [ngClass]="'subtext'"> max kg</span></p>
-            <p [ngClass]="'text'" [ngStyle]="{'color': 'green'}">40<span [ngClass]="'subtext'"> all reps</span></p>
-          </li>
-
-        </ul>
-      </li>
-
-      <li [ngClass]="'card'">
-        <h2 [ngClass]="'title title-small'">Подтягивания</h2>
-        <p [ngClass]="'subtitle'">Грудь, Передняя дельта</p>
-
-        <form action="#" autocomplete="off" [ngClass]="'wrapper wrapper-column'">
-
-            <div [ngClass]="'counterField'">
-              <label for="weight">Weight, kg: </label>
-              <div [ngClass]="'counterField-input'">
-                <button [ngClass]="'button button-icon button-counter'"><img src="../../assets/icons/remove-black-18dp.svg" alt="remove"></button>
-                <input type="number" readonly id="weight" value="10">
-                <button [ngClass]="'button button-icon button-counter'"><img src="../../assets/icons/add-24px.svg" alt="add"></button>
-              </div>
-            </div>
-
-            <div [ngClass]="'counterField'">
-              <label for="reps">Reps: </label>
-              <div [ngClass]="'counterField-input'">
-                <button [ngClass]="'button button-icon button-counter'"><img src="../../assets/icons/remove-black-18dp.svg" alt="remove"></button>
-                <input type="number" readonly id="reps" value="10">
-                <button [ngClass]="'button button-icon button-counter'"><img src="../../assets/icons/add-24px.svg" alt="add"></button>
-              </div>
-            </div>
-
-          <button [ngClass]="'button button-outlined'">save</button>
-        </form>
-<!--        <ul [ngClass]="'wrapper wrapper-list-horizontal'">-->
-<!--          <li>-->
-<!--            <p [ngClass]="'text'">60<span [ngClass]="'subtext'">kg</span></p>-->
-<!--            <p [ngClass]="'text'">10<span [ngClass]="'subtext'">reps</span></p>-->
-<!--          </li>-->
-
-<!--          <li>-->
-<!--            <button [ngClass]="'button button-icon'"><img src="../../assets/icons/add-24px.svg" alt="add"></button>-->
-<!--          </li>-->
-<!--        </ul>-->
-      </li>
-
+      <app-exercise-card *ngFor="let exercise of this.newWorkout.exercises; let i = index" [exercise]="exercise" [indexOfExercise]="i" [onAddExerciseApproaches]="this.addExerciseApproaches"></app-exercise-card>
     </ul>
 
-    <div [ngClass]="'wrapper'">
+    <app-create-exercise *ngIf="newExerciseFormIsActive" [onCloseCreateExerciseComponent]="this.onCloseNewExerciseForm"></app-create-exercise>
 
-      <div [ngClass]="'formField'">
-        <input [ngClass]="'formField_input'" type="text" id="exercise" placeholder="Enter your exercise">
-        <label for="exercise">Exercise</label>
+      <div [ngClass]="'selectOfExercise_wrapper'">
+        <div [ngClass]="'formField'" (click)="onOpenSelectOfExercise()">
+          <input #selectOfExerciseInput [value]="selectOfExerciseValue" readonly [ngClass]="'formField_input'" type="text" id="addExercise" placeholder="Enter your exercise">
+          <label for="addExercise">Your exercise</label>
+        </div>
+
+        <menu *ngIf="selectOfExerciseIsActive" [ngClass]="'menu selectOfExercise'" #selectOfExercise>
+          <li [ngClass]="'menu_item'" *ngFor="let exercise of userOfExercises; let i = index" (click)="onSelectExercise(i)"><a>{{exercise.title}}</a></li>
+          <li [ngClass]="'menu_item'" (click)="onOpenNewExerciseForm()"><a>Add exercise</a></li>
+        </menu>
+
+        <button [ngClass]="'button button-outlined'" [disabled]="selectOfExerciseValue === ''" (click)="addExercise()">Add exercise</button>
       </div>
-
-      <div [ngClass]="'wrapper-row'">
-
-        <div [ngClass]="'chip'">
-          <input type="checkbox" value="legs" id="chip2">
-          <label for="chip2">Legs</label>
-        </div>
-
-        <div [ngClass]="'chip'">
-          <input type="checkbox" value="backMuscles" id="chip1">
-          <label for="chip1">Back muscles</label>
-        </div>
-
-        <div [ngClass]="'chip'">
-          <input type="checkbox" value="biceps" id="chip">
-          <label for="chip">Biceps</label>
-        </div>
-      </div>
-    <button [ngClass]="'button button-outlined'">add exercise</button>
-    </div>
 
     <div [ngClass]="'formField'">
-      <input [ngClass]="'formField_input'" type="number" id="userWeight" placeholder="Enter your your weight">
+      <input [ngClass]="'formField_input'" type="number" id="userWeight" placeholder="Enter your weight" formControlName="userOfWeight">
       <label for="userWeight">Your weight</label>
     </div>
 
-    <button [ngClass]="'button'">complete the workout</button>
-  </div>
+    <button type="submit" (click)="saveNewWorkout()" [ngClass]="'button'">complete the workout</button>
+  </form>
 </section>
