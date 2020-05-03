@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Exercise, NewWorkoutService} from '../new-workout.service';
 
 
 @Component({
@@ -13,20 +14,17 @@ export class CreateExerciseComponent implements OnInit {
 
   newExerciseForm: FormGroup;
   muscleGroups: string[] = ['Legs', 'Back muscles', 'Biceps'];
-  selectedMuscleGroups = [];
+  selectedMuscleGroups: string[] = [];
   loading = false;
   error = '';
 
   constructor(
-
+    private newWorkoutService: NewWorkoutService
   ) {}
-
-
 
   ngOnInit() {
     this.newExerciseForm = new FormGroup({
-      muscleGroups: new FormControl([], [Validators.required]),
-      exerciseName: new FormControl('', [])
+      title: new FormControl('', [Validators.required])
     });
   }
 
@@ -36,7 +34,16 @@ export class CreateExerciseComponent implements OnInit {
   }
 
   saveExercise() {
-    this.onCloseCreateExerciseComponent();
+    this.loading = true;
+    const newExercise: Exercise = {muscleGroups: this.selectedMuscleGroups, ...this.newExerciseForm.value};
+    this.newWorkoutService.createCustomExercise(newExercise).subscribe(
+      res => {
+        console.log(res);
+        this.newWorkoutService.setCustomExercisesList(res.customExercises);
+        this.loading = false;
+        this.onCloseCreateExerciseComponent();
+      }
+    );
   }
 
 }

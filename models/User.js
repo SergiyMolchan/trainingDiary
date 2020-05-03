@@ -2,7 +2,6 @@ const config = require('../config/config.js');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
-// const errorHandler = require('../utils/errorHandler');
 
 const UserSchema = new mongoose.Schema({
   login: {
@@ -18,6 +17,17 @@ const UserSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
+  exercises: [
+    {
+      title: {
+        type: String,
+        required: true
+      },
+      muscleGroups: [{
+        type: String
+      }]
+    }
+  ]
 });
 
 const User = module.exports = mongoose.model('User', UserSchema);
@@ -39,12 +49,23 @@ module.exports.regitration = async (req, res) => {
       const user = new User({
         login: req.body.login.trim(),
         password: bcrypt.hashSync(req.body.password.trim(), salt),
+        exercises: [
+          {
+            title: 'Жым шаги',
+            muscleGroups: ['Грудак', 'Предня дельта'],
+          },
+          {
+            title: 'Присед',
+            muscleGroups: ['Квадрицепс'],
+          }
+        ]
       });
       await user.save();
       res.status(201).json({success: true, message: "Registered."});
     }
   } catch (error) {
-    // errorHandler(res, error);
+    console.error(error);
+    res.status(500).json({success: false, message: "Error on server."});
   }
 }
 
@@ -68,7 +89,8 @@ module.exports.login = async (req, res) => {
       res.status(404).json({message: "User is not found."});
     }
   } catch (error) {
-    // errorHandler(res, error);
+    console.error(error);
+    res.status(500).json({success: false, message: "Error on server."});
   }
 }
 

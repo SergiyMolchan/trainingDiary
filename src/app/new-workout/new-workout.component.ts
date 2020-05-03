@@ -1,5 +1,5 @@
 import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
-import {Exercise, ExerciseApproaches, NewWorkoutService, Workout} from './new-workout.service';
+import {Exercise, ExerciseApproaches, Exercises, NewWorkoutService, Workout} from './new-workout.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
@@ -24,17 +24,6 @@ export class NewWorkoutComponent implements OnInit {
   constructor(
     private newWorkoutService: NewWorkoutService
   ) { }
-
-  userOfExercises = [
-    {
-      title: 'Жым шаги',
-      muscleGroups: ['Грудак', 'Предня дельта'],
-    },
-    {
-      title: 'Присед',
-      muscleGroups: ['Квадрицепс'],
-    }
-  ];
 
   newWorkout: Workout = {
     user: '',
@@ -87,12 +76,18 @@ export class NewWorkoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.newWorkoutService.getCustomExercises().subscribe(
+      res => {
+        console.log(res);
+        this.newWorkoutService.setCustomExercisesList(res.customExercises);
+      }
+    );
+
     this.workoutForm = new FormGroup({
       dateOfTraining: new FormControl( '', [Validators.required]),
       exercises: new FormControl([], [Validators.required]),
       userOfWeight: new FormControl(0, [Validators.required])
     });
-
   }
 
   addExerciseApproaches = (indexOfExercise: number, exerciseApproaches: ExerciseApproaches) => {
@@ -102,6 +97,7 @@ export class NewWorkoutComponent implements OnInit {
   addExercise() {
     this.newWorkout.exercises.push(this.selectedExercise);
     this.selectOfExerciseValue = '';
+    // @ts-ignore
     this.selectedExercise = {...this.exercise};
   }
 
@@ -116,7 +112,7 @@ export class NewWorkoutComponent implements OnInit {
   onCloseNewExerciseForm = () => this.newExerciseFormIsActive = false;
 
   onSelectExercise(index: number) {
-    const exercise = {...this.userOfExercises[index], exerciseApproaches: []};
+    const exercise = {...this.newWorkoutService.getCustomExercisesList()[index], exerciseApproaches: []};
     this.selectOfExerciseValue = exercise.title;
     this.selectedExercise = {...exercise};
   }

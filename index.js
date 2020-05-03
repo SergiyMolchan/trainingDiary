@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const config = require('./config/config');
 const authRoutes = require('./api/auth');
+const customExercises = require('./api/CustomExercise');
 
 const app = express();
 
@@ -11,6 +12,7 @@ app.use(passport.initialize());
 require('./middleware/passport.js')(passport);
 
 app.use('/api/auth', authRoutes);
+app.use('/api/customExercises', customExercises);
 app.use(express.static(path.join(__dirname, '/public'))); //path statics
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
@@ -23,7 +25,7 @@ const PORT = process.env.PORT || config.PORT;
       {
         useNewUrlParser: true,
         useUnifiedTopology: true,
-        findByIdAndUpdate: true
+        // findByIdAndUpdate: true
       });
     const db = mongoose.connection;
     db.on('error', console.error.bind(console, 'connection error:'));

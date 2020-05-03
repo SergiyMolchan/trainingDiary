@@ -1,7 +1,9 @@
 <form [formGroup]="newExerciseForm" [ngClass]="'wrapper'">
 
+  <div *ngIf="this.loading" class="loader"></div>
+
   <div [ngClass]="'formField'">
-    <input [ngClass]="'formField_input'" type="text" id="exercise" placeholder="Enter your exercise" formControlName="exerciseName">
+    <input [ngClass]="'formField_input'" type="text" id="exercise" placeholder="Enter your exercise" formControlName="title">
     <label for="exercise">Exercise</label>
   </div>
 
