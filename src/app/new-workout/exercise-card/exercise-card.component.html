@@ -10,7 +10,7 @@
     </li>
 
     <li>
-      <button (click)="onOpenAddExerciseApproachesFrom()" [ngClass]="'button button-icon'"><img src="../../../assets/icons/add-24px.svg" alt="add"></button>
+      <button (click)="onOpenAddExerciseApproachesFrom()" type="button" [ngClass]="'button button-icon'"><img src="../../../assets/icons/add-24px.svg" alt="add"></button>
     </li>
 
     <li>
@@ -25,22 +25,22 @@
     <div [ngClass]="'counterField'">
       <label for="weight">Weight, kg: </label>
       <div [ngClass]="'counterField-input'">
-        <button (click)="addWeight(-1)" [ngClass]="'button button-icon button-counter'"><img src="../../../assets/icons/remove-black-18dp.svg" alt="remove"></button>
+        <button (click)="addWeight(-1)" type="button" [ngClass]="'button button-icon button-counter'"><img src="../../../assets/icons/remove-black-18dp.svg" alt="remove"></button>
         <input type="number" id="weight" formControlName="weight">
-        <button (click)="addWeight(1)" [ngClass]="'button button-icon button-counter'"><img src="../../../assets/icons/add-24px.svg" alt="add"></button>
+        <button (click)="addWeight(1)" type="button" [ngClass]="'button button-icon button-counter'"><img src="../../../assets/icons/add-24px.svg" alt="add"></button>
       </div>
     </div>
 
     <div [ngClass]="'counterField'">
       <label for="reps">Reps: </label>
       <div [ngClass]="'counterField-input'">
-        <button (click)="addReps(-1)" [ngClass]="'button button-icon button-counter'"><img src="../../../assets/icons/remove-black-18dp.svg" alt="remove"></button>
+        <button (click)="addReps(-1)" type="button" [ngClass]="'button button-icon button-counter'"><img src="../../../assets/icons/remove-black-18dp.svg" alt="remove"></button>
         <input type="number" readonly id="reps" formControlName="reps">
-        <button (click)="addReps(1)" [ngClass]="'button button-icon button-counter'"><img src="../../../assets/icons/add-24px.svg" alt="add"></button>
+        <button (click)="addReps(1)" type="button" [ngClass]="'button button-icon button-counter'"><img src="../../../assets/icons/add-24px.svg" alt="add"></button>
       </div>
     </div>
 
-    <button type="submit" (click)="saveExerciseApproaches()" [ngClass]="'button button-outlined'">save</button>
+    <button type="button" (click)="saveExerciseApproaches()" [ngClass]="'button button-outlined'">save</button>
   </form>
 
 </li>

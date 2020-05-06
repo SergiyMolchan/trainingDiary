@@ -22,28 +22,12 @@ export class NewWorkoutComponent implements OnInit {
   error = '';
 
   constructor(
-    private newWorkoutService: NewWorkoutService
+    public newWorkoutService: NewWorkoutService
   ) { }
 
   newWorkout: Workout = {
-    user: '',
-    dateOfTraining: 0,
-    exercises: [
-      {
-        title: 'Жым шаги',
-        muscleGroups: ['Грудак', 'Предня дельта'],
-        exerciseApproaches: [
-          {
-            weight: 100,
-            reps: 10
-          },
-          {
-            weight: 98,
-            reps: 9
-          }
-        ]
-      },
-    ],
+    dateOfTraining: Date.now(),
+    exercises: [],
     userOfWeight: 0
   };
 
@@ -78,15 +62,14 @@ export class NewWorkoutComponent implements OnInit {
   ngOnInit(): void {
     this.newWorkoutService.getCustomExercises().subscribe(
       res => {
-        console.log(res);
         this.newWorkoutService.setCustomExercisesList(res.customExercises);
-      }
+      }, error => {
+      console.log(this.error);
+    }
     );
 
     this.workoutForm = new FormGroup({
-      dateOfTraining: new FormControl( '', [Validators.required]),
-      exercises: new FormControl([], [Validators.required]),
-      userOfWeight: new FormControl(0, [Validators.required])
+      userOfWeight: new FormControl('', [Validators.required])
     });
   }
 
@@ -102,7 +85,27 @@ export class NewWorkoutComponent implements OnInit {
   }
 
   saveNewWorkout() {
+    this.newWorkout.userOfWeight = this.workoutForm.value.userOfWeight;
     console.log(this.newWorkout);
+
+    if (this.workoutForm.valid || this.newWorkout.exercises.length !== 0) {
+      this.error =  '';
+      this.loading = true;
+      this.newWorkoutService.saveNewWorkout(this.newWorkout).subscribe( res => {
+        console.log(res);
+        this.workoutForm.reset();
+        this.loading = false;
+        this.newWorkout = {
+          dateOfTraining: Date.now(),
+          exercises: [],
+          userOfWeight: 0
+        };
+      }, error => {
+        this.error =  error.error;
+        this.loading = false;
+        console.log(this.error);
+      });
+    }
   }
 
 

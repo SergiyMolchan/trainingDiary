@@ -5,6 +5,7 @@ const passport = require('passport');
 const config = require('./config/config');
 const authRoutes = require('./api/auth');
 const customExercises = require('./api/CustomExercise');
+const workouts = require('./api/Workouts');
 
 const app = express();
 
@@ -13,6 +14,7 @@ require('./middleware/passport.js')(passport);
 
 app.use('/api/auth', authRoutes);
 app.use('/api/customExercises', customExercises);
+app.use('/api/workouts', workouts);
 app.use(express.static(path.join(__dirname, '/public'))); //path statics
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));

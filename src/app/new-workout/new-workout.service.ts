@@ -4,7 +4,6 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {AuthorizationService} from '../authorization/authorization.service';
 
 export interface Workout {
-  user: string; // id of user
   userOfWeight: number;
   exercises: Exercise[];
   dateOfTraining: number;
@@ -48,8 +47,12 @@ export class NewWorkoutService {
     })
   };
 
-  newWorkout(workout: object): Observable<Workout> {
-    return this.http.post<Workout>('/api/auth/registration', workout);
+  saveNewWorkout(workout: object): Observable<Workout> {
+    return this.http.post<Workout>('/api/Workouts/saveWorkout', workout, this.options);
+  }
+
+  getWorkouts(): Observable <Workout[]> {
+    return this.http.get<Workout[]>('/api/Workouts/getWorkouts', this.options);
   }
 
   createCustomExercise(exercise: Exercise): Observable<Exercises> {

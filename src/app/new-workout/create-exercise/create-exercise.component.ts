@@ -34,16 +34,23 @@ export class CreateExerciseComponent implements OnInit {
   }
 
   saveExercise() {
-    this.loading = true;
-    const newExercise: Exercise = {muscleGroups: this.selectedMuscleGroups, ...this.newExerciseForm.value};
-    this.newWorkoutService.createCustomExercise(newExercise).subscribe(
-      res => {
-        console.log(res);
-        this.newWorkoutService.setCustomExercisesList(res.customExercises);
-        this.loading = false;
-        this.onCloseCreateExerciseComponent();
-      }
-    );
+    if (this.newExerciseForm.valid) {
+      this.error = '';
+      this.loading = true;
+      const newExercise: Exercise = {muscleGroups: this.selectedMuscleGroups, ...this.newExerciseForm.value};
+      this.newWorkoutService.createCustomExercise(newExercise).subscribe(
+        res => {
+          console.log(res);
+          this.newWorkoutService.setCustomExercisesList(res.customExercises);
+          this.loading = false;
+          this.onCloseCreateExerciseComponent();
+        }, error => {
+          this.error =  error;
+          this.loading = false;
+          console.log(this.error);
+        }
+      );
+    }
   }
 
 }

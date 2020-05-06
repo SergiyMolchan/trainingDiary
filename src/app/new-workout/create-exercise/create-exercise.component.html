@@ -19,5 +19,6 @@
 
   <div *ngIf="newExerciseForm.invalid && newExerciseForm.touched || !!this.error" [ngClass]="'message message-error'" [ngStyle]="{'width': '100%'}">
     <p *ngIf="!!this.error">{{this.error}}</p>
+    <p *ngIf="newExerciseForm.get('title').errors?.required && newExerciseForm.get('title').touched">Exercise field is required.</p>
   </div>
 </form>

@@ -1,5 +1,8 @@
 <section class="wrapper">
-  <form [formGroup]="workoutForm" [ngClass]="'card card-position'">
+  <form [formGroup]="workoutForm" [ngClass]="'card card-position'" (ngSubmit)="saveNewWorkout()">
+
+    <div *ngIf="this.loading" class="loader"></div>
+
     <h2 [ngClass]="'card_title'">New workout</h2>
     <p [ngClass]="'card_subtitle'">Record your workout</p>
 
@@ -16,11 +19,11 @@
         </div>
 
         <menu *ngIf="selectOfExerciseIsActive" [ngClass]="'menu selectOfExercise'" #selectOfExercise>
-          <li [ngClass]="'menu_item'" *ngFor="let exercise of this.newWorkoutService.getCustomExercisesList(); let i = index" (click)="onSelectExercise(i)"><a>{{exercise.title}}</a></li>
+          <li [ngClass]="'menu_item'" *ngFor="let exercise of this.newWorkoutService.getCustomExercisesList() || []; let i = index" (click)="onSelectExercise(i)"><a>{{exercise.title}}</a></li>
           <li [ngClass]="'menu_item'" (click)="onOpenNewExerciseForm()"><a>Add exercise</a></li>
         </menu>
 
-        <button [ngClass]="'button button-outlined'" [disabled]="selectOfExerciseValue === ''" (click)="addExercise()">Add exercise</button>
+        <button [ngClass]="'button button-outlined'" type="button" [disabled]="selectOfExerciseValue === ''" (click)="addExercise()">Add exercise</button>
       </div>
 
     <div [ngClass]="'formField'">
@@ -28,6 +31,11 @@
       <label for="userWeight">Your weight</label>
     </div>
 
-    <button type="submit" (click)="saveNewWorkout()" [ngClass]="'button'">complete the workout</button>
+    <button type="submit" [ngClass]="'button'" [disabled]="!workoutForm.valid || this.newWorkout.exercises.length === 0">complete the workout</button>
+
+    <div *ngIf="workoutForm.invalid && workoutForm.touched || !!this.error" [ngClass]="'message message-error'">
+      <p *ngIf="!!this.error">{{this.error}}</p>
+      <p *ngIf="workoutForm.get('userOfWeight').errors?.required && workoutForm.get('userOfWeight').touched">Specify your weight</p>
+    </div>
   </form>
 </section>
