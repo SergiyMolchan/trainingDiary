@@ -51,8 +51,12 @@ export class NewWorkoutService {
     return this.http.post<Workout>('/api/Workouts/saveWorkout', workout, this.options);
   }
 
-  getWorkouts(): Observable <Workout[]> {
-    return this.http.get<Workout[]>('/api/Workouts/getWorkouts', this.options);
+  getAllWorkouts(): Observable <Workout[]> {
+    return this.http.get<Workout[]>('/api/Workouts/getAllWorkouts', this.options);
+  }
+
+  getWorkoutsByCurrentMonth(): Observable <Workout[]> {
+    return this.http.get<Workout[]>('/api/Workouts/getWorkoutsByCurrentMonth', this.options);
   }
 
   createCustomExercise(exercise: Exercise): Observable<Exercises> {

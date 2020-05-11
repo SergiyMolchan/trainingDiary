@@ -50,7 +50,7 @@ module.exports.saveNewWorkout = async (req, res) => {
       });
 
       await workout.save();
-      const workouts = await Workouts.find({user: req.user.id}).sort({dateOfTraining: -1});
+      const workouts = await Workouts.find({user: req.user.id, dateOfTraining: {$gt: getCurrentMonth()}});
       res.status(201).json({success: true, workouts: workouts});
     }
   } catch (error) {
@@ -59,12 +59,25 @@ module.exports.saveNewWorkout = async (req, res) => {
   }
 };
 
-module.exports.getWorkouts = async (req, res) => {
+module.exports.getAllWorkouts = async (req, res) => {
   try {
-    const workouts = await Workouts.find({user: req.user.id}).sort({dateOfTraining: -1});
+    const workouts = await Workouts.find({user: req.user.id});
     res.status(201).json({success: true, workouts: workouts});
   } catch (error) {
     console.error(error);
     res.status(500).json({success: false, message: "Error on server."});
   }
 };
+
+module.exports.getWorkoutsByCurrentMonth = async (req, res) => {
+  try {
+    const workouts = await Workouts.find({user: req.user.id, date: {$gt: getCurrentMonth()}});
+    res.status(201).json({success: true, workouts: workouts});
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({success: false, message: "Error on server."});
+  }
+};
+
+getCurrentMonth = () => new Date(Date.now() - (new Date().getDate() * 86400 * 1000 + new Date().getHours() * 3600 * 1000 + new Date().getMinutes() * 60 * 1000 + new Date().getSeconds() * 1000) + 60 * 60 * 24 * 1000);
+

@@ -14,6 +14,7 @@
   </nav>
 
   <menu [hidden]="!authorizationService.isAuth()" *ngIf="isOpenMenu" [ngClass]="'menu appMenu'" #menuElement>
+    <li [ngClass]="'menu_item'"><a [routerLink]="'/stats'" [routerLinkActive]="'menu_item-active'">Stats</a></li>
     <li [ngClass]="'menu_item'"><a [routerLink]="'/new-workout'" [routerLinkActive]="'menu_item-active'">New workout</a></li>
     <li [ngClass]="'menu_item'"><a (click)="logout()">Logout</a></li>
   </menu>

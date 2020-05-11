@@ -50,7 +50,7 @@ export class AuthorizationService {
       } else {
         // @ts-ignore
         this.autoLogout((expirationDate.getTime() - new Date()) / 1000);
-        this.router.navigate(['/new-workout']);
+        this.router.navigate(['/stats']);
       }
     } else {
       this.logout();
