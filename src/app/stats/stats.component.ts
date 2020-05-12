@@ -18,18 +18,22 @@ export class StatsComponent implements OnInit {
 
   customExercises = this.newWorkoutService.getCustomExercisesList();
   selectedExerciseTitle: string = 'подтягивания';
-  trackProgressionBy: string = 'reps' //'weight'; // specify property name as argument
+  trackProgressionBy: string = 'weight' //'weight'; // specify property name as argument
   dataForTableOfChart = [];
   drawChart = () => {
+    console.log('custom exercises: ', this.customExercises)
+    const selectedExercises = this.selectOfExercise(this.selectedExerciseTitle);
+    console.log('selectedExercises', selectedExercises);
 
     const data = new google.visualization.DataTable();
     data.addColumn('date', 'Date');
-    data.addColumn('number', this.selectedExerciseTitle);
+    for(let i = 0; i < this.maximumNumberOfApproaches(selectedExercises); i++){
+      data.addColumn('number', `exercise approaches №${i + 1}`);
+    }
     // data.addColumn('number', 'Подтягивания')
-    const selectedExercises = this.selectOfExercise(this.selectedExerciseTitle);
-    console.log('selectedExercises', selectedExercises);
+
     const dataOfTable = this.workouts.map((workout, index) => {
-      return [new Date(workout.dateOfTraining), selectedExercises[index][0].exerciseApproaches[0][this.trackProgressionBy]];
+      return [new Date(workout.dateOfTraining), ...this.decomposeApproaches(this.formattingApproaches(selectedExercises), index) ]; // [0][this.trackProgressionBy]
     });
     console.log('data: ', dataOfTable);
     data.addRows([
@@ -39,7 +43,7 @@ export class StatsComponent implements OnInit {
 
     const options = {
       chart: {
-        title: 'Box Office Earnings in First Two Weeks of Opening',
+        title: this.selectedExerciseTitle,
         subtitle: 'in millions of dollars (USD)'
       },
       hAxis: {
@@ -62,6 +66,7 @@ export class StatsComponent implements OnInit {
         console.log('Server data: ', this.workouts);
         google.charts.load('current', {packages: ['line']});
         google.charts.setOnLoadCallback(this.drawChart);
+        this.decomposeApproaches(this.formattingApproaches(), 1);
       }, error => console.log(error)
     );
   }
@@ -70,7 +75,38 @@ export class StatsComponent implements OnInit {
     const selectedExercise = this.workouts.map(workout => {
       return workout.exercises.map(exercise => exercise.title === title ? exercise : {exerciseApproaches: [{weight: null, reps: null}]});
     });
-    return selectedExercise;
+    return selectedExercise.map(exercise => exercise[0]);
+  }
+
+  maximumNumberOfApproaches(exercises: Exercise[] = []) {
+    let max = 0;
+    exercises.forEach(exercise => {
+      if (max < exercise.exerciseApproaches.length) {
+        max = exercise.exerciseApproaches.length;
+      }
+    });
+    return max;
+  }
+
+  formattingApproaches() {
+    const exercises = this.selectOfExercise(this.selectedExerciseTitle);
+    const max = this.maximumNumberOfApproaches(exercises);
+    exercises.map(exercise => {
+      if (exercise.exerciseApproaches.length < max) {
+        for (let i = 0; i < max; i++) {
+          if (exercise.exerciseApproaches[i] === undefined) {
+            exercise.exerciseApproaches.push({weight: null, reps: null});
+          }
+        }
+      }
+    });
+    return exercises;
+  }
+
+  decomposeApproaches(exercises: Exercise[] = [], index: number) {
+    const approachesResult = [];
+    exercises[index].exerciseApproaches.map(exerciseApproach => approachesResult.push(exerciseApproach[this.trackProgressionBy]));
+    return approachesResult;
   }
 
   ngOnInit(): void {
