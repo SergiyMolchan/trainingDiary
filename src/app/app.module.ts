@@ -8,6 +8,7 @@ import {AuthorizationModule} from './authorization/authorization.module';
 import {SharedModule} from './shared/shared.module';
 import {RegistrationModule} from './registration/registration.module';
 import {NewWorkoutModule} from './new-workout/new-workout.module';
+import {StatsModule} from './stats/stats.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import {NewWorkoutModule} from './new-workout/new-workout.module';
     SharedModule,
     AuthorizationModule,
     RegistrationModule,
-    NewWorkoutModule
+    NewWorkoutModule,
+    StatsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

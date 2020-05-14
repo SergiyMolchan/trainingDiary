@@ -1,2 +1,34 @@
-<p>ok</p>
-<div #lineChart style="width: 80%; height: 70vh; margin: 20px;"></div>
+<section class="wrapper">
+  <div [ngClass]="'card card-position'">
+    <h2 [ngClass]="'card_title'">Stats</h2>
+    <p [ngClass]="'card_subtitle'">Your progress in exercises is displayed here.</p>
+
+    <div [ngClass]="'selectOfExercise_wrapper'">
+      <div [ngClass]="'formField'" (click)="onOpenSelectOfExercise()">
+        <input #selectOfExerciseInput [value]="selectedExerciseTitle" readonly [ngClass]="'formField_input'" type="text" id="addExercise" placeholder="Progress in exercise">
+        <label for="addExercise">Progress in exercise</label>
+      </div>
+
+      <menu *ngIf="selectOfExerciseIsActive" [ngClass]="'menu selectOfExercise'" #selectOfExercise>
+        <li [ngClass]="'menu_item'" *ngFor="let exercise of this.newWorkoutService.getCustomExercisesList() || []; let i = index" (click)="onSelectExercise(i)"><a>{{exercise.title}}</a></li>
+      </menu>
+
+    </div>
+
+    <div [ngClass]="'selectOfExercise_wrapper'">
+      <div [ngClass]="'formField'" (click)="onOpenSelectTypeOfProgress()">
+        <input #typeOfProgressInput [value]="trackProgressionBy" readonly [ngClass]="'formField_input'" type="text" id="typeOfProgress" placeholder="Track progression by">
+        <label for="typeOfProgress">Track progression by</label>
+      </div>
+
+      <menu *ngIf="selectTypeOfProgressIsActive" [ngClass]="'menu selectOfExercise'" #selectOfTypeOfProgress>
+        <li [ngClass]="'menu_item'" (click)="onSelectTypeOfProgress('reps')"><a>Reps</a></li>
+        <li [ngClass]="'menu_item'" (click)="onSelectTypeOfProgress('weight')"><a>Weight</a></li>
+      </menu>
+
+    </div>
+
+    <div #lineChart style="width: 100%; height: 70vh;"></div>
+  </div>
+
+</section>

@@ -3,11 +3,11 @@ import { StatsComponent } from './stats.component';
 import {SharedModule} from '../shared/shared.module';
 
 @NgModule({
-  declarations: [
-    StatsComponent
-  ],
   imports: [
     SharedModule
+  ],
+  declarations: [
+    StatsComponent
   ],
   bootstrap: [
     StatsComponent

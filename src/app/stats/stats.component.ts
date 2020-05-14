@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 import {Exercise, NewWorkoutService, Workout} from '../new-workout/new-workout.service';
 declare var google: any;
 
@@ -7,45 +7,111 @@ declare var google: any;
   templateUrl: './stats.component.html',
   styleUrls: ['./stats.component.sass']
 })
-export class StatsComponent implements OnInit {
+export class StatsComponent implements OnInit, AfterViewInit {
 
+  selectOfExerciseIsActive = false;
+  selectTypeOfProgressIsActive = false;
+  selectedExerciseTitle = '';
+  trackProgressionBy = ''; // specify property name as argument
   workouts: Workout[] = [];
 
   @ViewChild('lineChart') lineChart: ElementRef;
+  @ViewChild('selectOfExercise') insideElement;
+  @ViewChild('selectOfExerciseInput') selectOfExerciseInput;
+  @ViewChild('typeOfProgressInput') typeOfProgressInput;
+  @ViewChild('selectOfTypeOfProgress') selectOfTypeOfProgress;
+  @HostListener('document:click', ['$event.target'])
+  public onClick(targetElement) {
+    if (this.selectOfExerciseIsActive === true) {
+      const clickedInside = this.insideElement.nativeElement.contains(targetElement);
+      const menuBtn = this.selectOfExerciseInput.nativeElement;
+      if (clickedInside) {
+        this.onCloseSelectOfExercise();
+      } else {
+        if (targetElement !== menuBtn) {
+          this.onCloseSelectOfExercise();
+        }
+      }
+    }
+
+    if (this.selectTypeOfProgressIsActive === true) {
+      const clickedInside = this.selectOfTypeOfProgress.nativeElement.contains(targetElement);
+      const menuBtn = this.typeOfProgressInput.nativeElement;
+      if (clickedInside) {
+        this.onCloseSelectTypeOfProgress();
+      } else {
+        if (targetElement !== menuBtn) {
+          this.onCloseSelectTypeOfProgress();
+        }
+      }
+    }
+  }
   constructor(
     private newWorkoutService: NewWorkoutService
   ) { }
 
-  customExercises = this.newWorkoutService.getCustomExercisesList();
-  selectedExerciseTitle: string = 'подтягивания';
-  trackProgressionBy: string = 'weight' //'weight'; // specify property name as argument
-  dataForTableOfChart = [];
+  ngAfterViewInit() {
+    this.fetchWorkouts();
+  }
+
+  ngOnInit(): void {
+    this.newWorkoutService.getCustomExercises().subscribe(
+      res => {
+        this.newWorkoutService.setCustomExercisesList(res.customExercises);
+      }, error => {
+        console.log(error);
+      }
+    );
+  }
+
+  onOpenSelectOfExercise = () =>  this.selectOfExerciseIsActive = true;
+  onCloseSelectOfExercise = () =>  this.selectOfExerciseIsActive = false;
+
+  onSelectExercise(index: number) {
+    const exercise = {...this.newWorkoutService.getCustomExercisesList()[index]};
+    this.selectedExerciseTitle = exercise.title;
+    this.renderChart();
+  }
+
+  onOpenSelectTypeOfProgress = () =>  this.selectTypeOfProgressIsActive = true;
+  onCloseSelectTypeOfProgress = () =>  this.selectTypeOfProgressIsActive = false;
+
+  onSelectTypeOfProgress(trackProgressionBy: string) {
+    this.trackProgressionBy = trackProgressionBy;
+    this.renderChart();
+  }
+
+  fetchWorkouts() {
+    this.newWorkoutService.getAllWorkouts().subscribe(res => {
+        this.workouts = res.workouts;
+        this.renderChart();
+      }, error => console.log(error)
+    );
+  }
+
+  renderChart() {
+    google.charts.load('current', {packages: ['line']});
+    google.charts.setOnLoadCallback(this.drawChart);
+  }
+
   drawChart = () => {
-    console.log('custom exercises: ', this.customExercises)
     const selectedExercises = this.selectOfExercise(this.selectedExerciseTitle);
-    console.log('selectedExercises', selectedExercises);
 
     const data = new google.visualization.DataTable();
     data.addColumn('date', 'Date');
-    for(let i = 0; i < this.maximumNumberOfApproaches(selectedExercises); i++){
+    for (let i = 0; i < this.maximumNumberOfApproaches(selectedExercises); i++) {
       data.addColumn('number', `exercise approaches №${i + 1}`);
     }
-    // data.addColumn('number', 'Подтягивания')
 
     const dataOfTable = this.workouts.map((workout, index) => {
-      return [new Date(workout.dateOfTraining), ...this.decomposeApproaches(this.formattingApproaches(selectedExercises), index) ]; // [0][this.trackProgressionBy]
+      return [new Date(workout.dateOfTraining), ...this.decomposeApproaches(this.formattingApproaches(selectedExercises), index) ];
     });
-    console.log('data: ', dataOfTable);
+
     data.addRows([
       ...dataOfTable
-      // [new Date(this.workouts[0].dateOfTraining), this.workouts[0].exercises[0].exerciseApproaches[0].weight],
     ]);
 
     const options = {
-      chart: {
-        title: this.selectedExerciseTitle,
-        subtitle: 'in millions of dollars (USD)'
-      },
       hAxis: {
         title: 'Date',
         format:  'MMM, yyyy, dd'
@@ -58,17 +124,6 @@ export class StatsComponent implements OnInit {
     const chart = new google.charts.Line(this.lineChart.nativeElement);
 
     chart.draw(data, google.charts.Line.convertOptions(options));
-  }
-
-  fetchWorkouts() {
-    this.newWorkoutService.getAllWorkouts().subscribe(res => {
-        this.workouts = res.workouts;
-        console.log('Server data: ', this.workouts);
-        google.charts.load('current', {packages: ['line']});
-        google.charts.setOnLoadCallback(this.drawChart);
-        this.decomposeApproaches(this.formattingApproaches(), 1);
-      }, error => console.log(error)
-    );
   }
 
   selectOfExercise(title: string) {
@@ -88,8 +143,7 @@ export class StatsComponent implements OnInit {
     return max;
   }
 
-  formattingApproaches() {
-    const exercises = this.selectOfExercise(this.selectedExerciseTitle);
+  formattingApproaches(exercises: Exercise[]) {
     const max = this.maximumNumberOfApproaches(exercises);
     exercises.map(exercise => {
       if (exercise.exerciseApproaches.length < max) {
@@ -103,14 +157,9 @@ export class StatsComponent implements OnInit {
     return exercises;
   }
 
-  decomposeApproaches(exercises: Exercise[] = [], index: number) {
+  decomposeApproaches(exercises: Exercise[], index: number) {
     const approachesResult = [];
     exercises[index].exerciseApproaches.map(exerciseApproach => approachesResult.push(exerciseApproach[this.trackProgressionBy]));
     return approachesResult;
   }
-
-  ngOnInit(): void {
-    this.fetchWorkouts();
-  }
-
 }
