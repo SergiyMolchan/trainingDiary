@@ -9,12 +9,16 @@ import {SharedModule} from './shared/shared.module';
 import {RegistrationModule} from './registration/registration.module';
 import {NewWorkoutModule} from './new-workout/new-workout.module';
 import {StatsModule} from './stats/stats.module';
+import { TrainingHistoryComponent } from './training-history/training-history.component';
+import {ExerciseCardComponent} from './training-history/exercise-card/exercise-card.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    AppbarComponent,
-  ],
+    declarations: [
+        AppComponent,
+        AppbarComponent,
+        TrainingHistoryComponent,
+        ExerciseCardComponent,
+    ],
   imports: [
     BrowserModule,
     AppRoutingModule,

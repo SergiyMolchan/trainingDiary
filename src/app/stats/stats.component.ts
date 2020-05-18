@@ -139,7 +139,7 @@ export class StatsComponent implements OnInit, AfterViewInit {
     return selectedExercise.map(exercise => exercise[0]);
   }
 
-  maximumNumberOfApproaches(exercises: Exercise[] = []) {
+  maximumNumberOfApproaches(exercises?: (Exercise | { exerciseApproaches: { reps: null; weight: null }[] })[]) {
     let max = 0;
     exercises.forEach(exercise => {
       if (max < exercise.exerciseApproaches.length) {
@@ -149,7 +149,7 @@ export class StatsComponent implements OnInit, AfterViewInit {
     return max;
   }
 
-  formattingApproaches(exercises: Exercise[]) {
+  formattingApproaches(exercises: (Exercise | { exerciseApproaches: { reps: null; weight: null }[] })[]) {
     const max = this.maximumNumberOfApproaches(exercises);
     exercises.map(exercise => {
       if (exercise.exerciseApproaches.length < max) {
@@ -163,8 +163,9 @@ export class StatsComponent implements OnInit, AfterViewInit {
     return exercises;
   }
 
-  decomposeApproaches(exercises: Exercise[], index: number) {
+  decomposeApproaches(exercises: (Exercise | { exerciseApproaches: { reps: null; weight: null }[] })[], index: number) {
     const approachesResult = [];
+    // @ts-ignore
     exercises[index].exerciseApproaches.map(exerciseApproach => approachesResult.push(exerciseApproach[this.trackProgressionBy]));
     return approachesResult;
   }

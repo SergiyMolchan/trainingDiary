@@ -1,0 +1,22 @@
+<section class="wrapper">
+  <div [ngClass]="'card card-position'" [ngStyle]="{maxWidth: '100%', width: '100%'}">
+    <h2 [ngClass]="'card_title'">Training history</h2>
+    <p [ngClass]="'card_subtitle'">List of workouts and exercises that you did on them</p>
+    <hr>
+    <div *ngIf="this.loading" class="loader"></div>
+
+    <ul [ngClass]="'wrapper-list'"  [ngStyle]="{maxHeight: '70vh'}">
+
+      <div [ngClass]="'card card-position'" *ngFor="let workout of this.workouts.reverse()" [ngStyle]="{margin: '0 auto 0 auto'}">
+        <h2 [ngClass]="'card_title'">Date of workout: {{workout.dateOfTraining | date}}</h2>
+        <p [ngClass]="'card_subtitle'">Your weight at the time of training: {{workout.userOfWeight}}</p>
+        <app-exercise-card *ngFor="let exercise of workout.exercises; let i = index" [exercise]="exercise" [indexOfExercise]="i"></app-exercise-card>
+      </div>
+
+    </ul>
+
+    <div *ngIf="error" [ngClass]="'message message-error'">
+      <p *ngIf="!!this.error">{{this.error}}</p>
+    </div>
+  </div>
+</section>
