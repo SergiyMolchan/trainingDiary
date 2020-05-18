@@ -7,12 +7,12 @@ import {ProtectedRoutes} from './protected-routes.guard';
 import {StatsComponent} from './stats/stats.component';
 
 const routes: Routes = [
-  {path: '', component: StatsComponent , canActivate: [ProtectedRoutes]},
-  {path: 'stats', component: StatsComponent , canActivate: [ProtectedRoutes]},
-  {path: 'new-workout', component: NewWorkoutComponent, canActivate: [ProtectedRoutes]},
-  {path: 'authorization', component: AuthorizationComponent},
-  {path: 'registration', component: RegistrationComponent},
-  {path: '**', redirectTo: '/'}
+  {path: '', component: StatsComponent , canActivate: [ProtectedRoutes],  data: {animation: 'page1'}},
+  {path: 'stats', component: StatsComponent , canActivate: [ProtectedRoutes],  data: {animation: 'page2'}},
+  {path: 'new-workout', component: NewWorkoutComponent, canActivate: [ProtectedRoutes],  data: {animation: 'page1'}},
+  {path: 'authorization', component: AuthorizationComponent, data: {animation: 'page2'}},
+  {path: 'registration', component: RegistrationComponent, data: {animation: 'page1'}},
+  {path: '**', redirectTo: '/', data: {animation: 'page2'}}
 ];
 
 @NgModule({

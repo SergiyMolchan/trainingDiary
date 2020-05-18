@@ -18,7 +18,7 @@
           <label for="addExercise">Your exercise</label>
         </div>
 
-        <menu *ngIf="selectOfExerciseIsActive" [ngClass]="'menu selectOfExercise'" #selectOfExercise>
+        <menu *ngIf="selectOfExerciseIsActive" [ngClass]="'menu selectOfExercise'" #selectOfExercise [@menuAnim]="menuAnimState">
           <li [ngClass]="'menu_item'" *ngFor="let exercise of this.newWorkoutService.getCustomExercisesList() || []; let i = index" (click)="onSelectExercise(i)"><a>{{exercise.title}}</a></li>
           <li [ngClass]="'menu_item'" (click)="onOpenNewExerciseForm()"><a>Add exercise</a></li>
         </menu>

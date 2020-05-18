@@ -13,7 +13,18 @@ export class CreateExerciseComponent implements OnInit {
   @Input() onCloseCreateExerciseComponent: any;
 
   newExerciseForm: FormGroup;
-  muscleGroups: string[] = ['Legs', 'Back muscles', 'Biceps'];
+  muscleGroups: string[] = [
+    'Legs',
+    'quadriceps',
+    'buttocks',
+    'back muscles',
+    'biceps',
+    'triceps',
+    'forearm muscles',
+    'pectoral muscles',
+    'abdominal muscles',
+    'shoulders'
+  ];
   selectedMuscleGroups: string[] = [];
   loading = false;
   error = '';

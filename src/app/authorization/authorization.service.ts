@@ -43,6 +43,7 @@ export class AuthorizationService {
   }
 
   autoLogin() {
+    console.log('autologin')
     if (this.isAuth()) {
       const expirationDate = new Date(localStorage.getItem('expirationDate'));
       if (expirationDate <= new Date()) {

@@ -1,5 +1,6 @@
 <section class="wrapper">
   <div [ngClass]="'card card-position'">
+    <div *ngIf="loading" class="loader"></div>
     <h2 [ngClass]="'card_title'">Stats</h2>
     <p [ngClass]="'card_subtitle'">Your progress in exercises is displayed here.</p>
 
@@ -9,7 +10,7 @@
         <label for="addExercise">Progress in exercise</label>
       </div>
 
-      <menu *ngIf="selectOfExerciseIsActive" [ngClass]="'menu selectOfExercise'" #selectOfExercise>
+      <menu *ngIf="selectOfExerciseIsActive" [ngClass]="'menu selectOfExercise'" #selectOfExercise [@menuAnim]="menuAnimSelectOfExercise">
         <li [ngClass]="'menu_item'" *ngFor="let exercise of this.newWorkoutService.getCustomExercisesList() || []; let i = index" (click)="onSelectExercise(i)"><a>{{exercise.title}}</a></li>
       </menu>
 
@@ -21,14 +22,19 @@
         <label for="typeOfProgress">Track progression by</label>
       </div>
 
-      <menu *ngIf="selectTypeOfProgressIsActive" [ngClass]="'menu selectOfExercise'" #selectOfTypeOfProgress>
+      <menu *ngIf="selectTypeOfProgressIsActive" [ngClass]="'menu selectOfExercise'" #selectOfTypeOfProgress [@menuAnim]="menuAnimStateTrackProgressionBy">
         <li [ngClass]="'menu_item'" (click)="onSelectTypeOfProgress('reps')"><a>Reps</a></li>
         <li [ngClass]="'menu_item'" (click)="onSelectTypeOfProgress('weight')"><a>Weight</a></li>
       </menu>
 
     </div>
 
-    <div #lineChart style="width: 100%; height: 70vh;"></div>
-  </div>
+    <div [hidden]="(selectedExerciseTitle === '' || trackProgressionBy === '') || workouts.length === 0" #lineChart style="width: 100%; height: 70vh;"></div>
 
+    <div class="message message-info" [hidden]="selectedExerciseTitle !== '' && trackProgressionBy !== '' && workouts.length !== 0">
+      <p [hidden]="selectedExerciseTitle !== '' && trackProgressionBy !== ''">select params</p>
+      <p [hidden]="workouts.length !== 0">not date</p>
+    </div>
+
+  </div>
 </section>

@@ -1,2 +1,4 @@
 <app-appbar></app-appbar>
-<router-outlet></router-outlet>
+<div [@routeChangeAnimation]="getRouteAnimationState(outlet)">
+  <router-outlet #outlet="outlet"></router-outlet>
+</div>

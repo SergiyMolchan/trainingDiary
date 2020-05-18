@@ -1,14 +1,17 @@
 import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {Exercise, ExerciseApproaches, Exercises, NewWorkoutService, Workout} from './new-workout.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import selectMenuAnim from '../shared/munuAnimation';
 
 @Component({
   selector: 'app-new-workout',
   templateUrl: './new-workout.component.html',
-  styleUrls: ['./new-workout.component.sass']
+  styleUrls: ['./new-workout.component.sass'],
+  animations: selectMenuAnim
 })
 export class NewWorkoutComponent implements OnInit {
 
+  menuAnimState = 'hidden';
   workoutForm: FormGroup;
   newExerciseFormIsActive = false;
   selectOfExerciseIsActive = false;
@@ -109,8 +112,8 @@ export class NewWorkoutComponent implements OnInit {
   }
 
 
-  onOpenSelectOfExercise = () =>  this.selectOfExerciseIsActive = true;
-  onCloseSelectOfExercise = () =>  this.selectOfExerciseIsActive = false;
+  onOpenSelectOfExercise = () =>  {this.selectOfExerciseIsActive = true; this.menuAnimState = 'show'};
+  onCloseSelectOfExercise = () =>  {this.selectOfExerciseIsActive = false; this.menuAnimState = 'hidden'};
   onOpenNewExerciseForm = () => this.newExerciseFormIsActive = true;
   onCloseNewExerciseForm = () => this.newExerciseFormIsActive = false;
 

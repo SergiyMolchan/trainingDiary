@@ -51,12 +51,16 @@ module.exports.regitration = async (req, res) => {
         password: bcrypt.hashSync(req.body.password.trim(), salt),
         exercises: [
           {
-            title: 'Жым шаги',
-            muscleGroups: ['Грудак', 'Предня дельта'],
+            title: 'Bench press',
+            muscleGroups: ['pectoral muscles', 'shoulders'],
           },
           {
-            title: 'Присед',
-            muscleGroups: ['Квадрицепс'],
+            title: 'Squats',
+            muscleGroups: ['legs', 'quadriceps', 'buttocks'],
+          },
+          {
+            title: 'pull-ups',
+            muscleGroups: ['back muscles', 'biceps', ],
           }
         ]
       });

@@ -1,18 +1,22 @@
 import {AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 import {Exercise, NewWorkoutService, Workout} from '../new-workout/new-workout.service';
+import menuAnim from '../shared/munuAnimation';
 declare var google: any;
 
 @Component({
   selector: 'app-stats',
   templateUrl: './stats.component.html',
-  styleUrls: ['./stats.component.sass']
+  styleUrls: ['./stats.component.sass'],
+  animations: menuAnim
 })
 export class StatsComponent implements OnInit, AfterViewInit {
-
+  menuAnimSelectOfExercise = 'hidden';
+  menuAnimStateTrackProgressionBy = 'hidden';
   selectOfExerciseIsActive = false;
   selectTypeOfProgressIsActive = false;
   selectedExerciseTitle = '';
   trackProgressionBy = ''; // specify property name as argument
+  loading = false;
   workouts: Workout[] = [];
 
   @ViewChild('lineChart') lineChart: ElementRef;
@@ -55,6 +59,7 @@ export class StatsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.loading = true;
     this.newWorkoutService.getCustomExercises().subscribe(
       res => {
         this.newWorkoutService.setCustomExercisesList(res.customExercises);
@@ -64,27 +69,28 @@ export class StatsComponent implements OnInit, AfterViewInit {
     );
   }
 
-  onOpenSelectOfExercise = () =>  this.selectOfExerciseIsActive = true;
-  onCloseSelectOfExercise = () =>  this.selectOfExerciseIsActive = false;
+  onOpenSelectOfExercise = () =>  {this.selectOfExerciseIsActive = true; this.menuAnimSelectOfExercise = 'show'};
+  onCloseSelectOfExercise = () => { this.selectOfExerciseIsActive = false; this.menuAnimSelectOfExercise = 'hidden'};
 
   onSelectExercise(index: number) {
     const exercise = {...this.newWorkoutService.getCustomExercisesList()[index]};
     this.selectedExerciseTitle = exercise.title;
-    this.renderChart();
+    setTimeout(() => this.renderChart(), 200); // fixing a bug, initial rendering was not full screen
   }
 
-  onOpenSelectTypeOfProgress = () =>  this.selectTypeOfProgressIsActive = true;
-  onCloseSelectTypeOfProgress = () =>  this.selectTypeOfProgressIsActive = false;
+  onOpenSelectTypeOfProgress = () =>  {this.selectTypeOfProgressIsActive = true; this.menuAnimStateTrackProgressionBy = 'show'};
+  onCloseSelectTypeOfProgress = () =>  {this.selectTypeOfProgressIsActive = false; this.menuAnimStateTrackProgressionBy = 'hidden'};
 
   onSelectTypeOfProgress(trackProgressionBy: string) {
     this.trackProgressionBy = trackProgressionBy;
-    this.renderChart();
+    setTimeout(() => this.renderChart(), 200);  // fixing a bug, initial rendering was not full screen
   }
 
   fetchWorkouts() {
     this.newWorkoutService.getAllWorkouts().subscribe(res => {
         this.workouts = res.workouts;
         this.renderChart();
+        this.loading = false;
       }, error => console.log(error)
     );
   }
@@ -117,8 +123,8 @@ export class StatsComponent implements OnInit, AfterViewInit {
         format:  'MMM, yyyy, dd'
       },
       vAxis: {
-        title: 'max weight',
-      }
+        title: this.trackProgressionBy,
+      },
     };
 
     const chart = new google.charts.Line(this.lineChart.nativeElement);
