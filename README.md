@@ -2,7 +2,7 @@
 link: https://training-diary.azurewebsites.net/
 
 ## About application
-An application for tracking progress in training. Possibilities for recording the results in exercise approaches have been implemented, there is also the opportunity to add your own exercises, the functionality for tracking statistics and training history has been implemented.
+An application for tracking progress in workout. Possibilities for recording the results in exercise approaches have been implemented, there is also the opportunity to add your own exercises, the functionality for tracking statistics and training history has been implemented.
 
 ## Development tools
 1. JS
