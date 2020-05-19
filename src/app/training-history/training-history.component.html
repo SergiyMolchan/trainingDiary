@@ -15,6 +15,10 @@
 
     </ul>
 
+    <div *ngIf="workouts.length === 0" class="message message-info">
+      <p>Your workout history is empty, <a [routerLink]="'/new-workout'">record your workout</a>.</p>
+    </div>
+
     <div *ngIf="error" [ngClass]="'message message-error'">
       <p *ngIf="!!this.error">{{this.error}}</p>
     </div>
