@@ -18,12 +18,14 @@ export class StatsComponent implements OnInit, AfterViewInit {
   trackProgressionBy = ''; // specify property name as argument
   loading = false;
   workouts: Workout[] = [];
+  customExercises: string[] = [];
 
   @ViewChild('lineChart') lineChart: ElementRef;
   @ViewChild('selectOfExercise') insideElement;
   @ViewChild('selectOfExerciseInput') selectOfExerciseInput;
   @ViewChild('typeOfProgressInput') typeOfProgressInput;
   @ViewChild('selectOfTypeOfProgress') selectOfTypeOfProgress;
+
   @HostListener('document:click', ['$event.target'])
   public onClick(targetElement) {
     if (this.selectOfExerciseIsActive === true) {
@@ -63,6 +65,7 @@ export class StatsComponent implements OnInit, AfterViewInit {
     this.newWorkoutService.getCustomExercises().subscribe(
       res => {
         this.newWorkoutService.setCustomExercisesList(res.customExercises);
+        this.customExercises = this.newWorkoutService.getCustomExercisesList();
       }, error => {
         console.log(error);
       }
