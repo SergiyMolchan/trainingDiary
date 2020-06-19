@@ -15,7 +15,7 @@ require('./middleware/passport.js')(passport);
 app.use('/api/auth', authRoutes);
 app.use('/api/customExercises', customExercises);
 app.use('/api/workouts', workouts);
-app.use(express.static(path.join(__dirname, '/public'))); //path statics
+app.use(express.static(path.join(__dirname, '/public'))); //path statics /dist/trainingDiary
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
@@ -44,5 +44,5 @@ const PORT = process.env.PORT || config.PORT;
 })();
 
 app.get('*', (req, res) => {
-  res.sendFile(path.resolve('public', 'index.html'));
+  res.sendFile(path.resolve('dist/trainingDiary', 'index.html'));
 });

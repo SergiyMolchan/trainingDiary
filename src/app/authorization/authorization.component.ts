@@ -42,9 +42,9 @@ export class AuthorizationComponent implements OnInit {
             this.router.navigate(['/new-workout']);
             localStorage.removeItem('login');
           }, error => {
-            this.error =  error;
+            this.error =  error.error.message;
             this.loading = false;
-            console.log(this.error);
+            console.error(this.error);
           }
         );
     }

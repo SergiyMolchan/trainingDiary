@@ -11,10 +11,12 @@ import {routeChangeAnimation} from './app.animations';
 })
 
 export class AppComponent implements OnInit {
-  title = 'trainingDiary';
   constructor(
     private authorizationService: AuthorizationService
   ) {}
+  title = 'trainingDiary';
+
+  isAuth: boolean = this.authorizationService.isAuth();
 
   getRouteAnimationState(outlet: RouterOutlet) {
     return (
@@ -23,8 +25,6 @@ export class AppComponent implements OnInit {
       outlet.activatedRouteData['animation']
     )
   }
-
-  isAuth: boolean = this.authorizationService.isAuth();
 
   ngOnInit() {
     this.authorizationService.autoLogin();

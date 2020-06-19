@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/c0e6a98e-eb81-4fec-be86-dfbd8b86de75/resourceGroups/my-work/providers/Microsoft.Web/sites/training-diary",
+    "appService.deploySubpath": ""
+}
