@@ -29,11 +29,15 @@
 
     </div>
 
-    <div [hidden]="(selectedExerciseTitle === '' || trackProgressionBy === '') || workouts.length === 0" #lineChart style="width: 90%; height: 70vh;"></div>
+    <div class="message message-info" *ngIf="zeroSetsOfExercise">
+      <p>You did not do this exercise.</p>
+    </div>
+
+    <div [hidden]="(zeroSetsOfExercise || selectedExerciseTitle === '' || trackProgressionBy === '') || workouts.length === 0" #lineChart style="width: 90%; height: 70vh;"></div>
 
     <div class="message message-info" [hidden]="selectedExerciseTitle !== '' && trackProgressionBy !== '' && workouts.length !== 0">
-      <p [hidden]="selectedExerciseTitle !== '' && trackProgressionBy !== ''">select params</p>
-      <p [hidden]="workouts.length !== 0">not date</p>
+      <p [hidden]="selectedExerciseTitle !== '' && trackProgressionBy !== ''">Select params</p>
+      <p [hidden]="workouts.length !== 0">Not date</p>
     </div>
 
   </div>

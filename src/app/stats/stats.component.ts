@@ -19,6 +19,7 @@ export class StatsComponent implements OnInit, AfterViewInit {
   loading = false;
   workouts: Workout[] = [];
   customExercises: string[] = [];
+  zeroSetsOfExercise = false;
 
   @ViewChild('lineChart') lineChart: ElementRef;
   @ViewChild('selectOfExercise') insideElement;
@@ -76,6 +77,7 @@ export class StatsComponent implements OnInit, AfterViewInit {
   onCloseSelectOfExercise = () => { this.selectOfExerciseIsActive = false; this.menuAnimSelectOfExercise = 'hidden'};
 
   onSelectExercise(index: number) {
+    this.zeroSetsOfExercise = false;
     const exercise = {...this.newWorkoutService.getCustomExercisesList()[index]};
     this.selectedExerciseTitle = exercise.title;
     setTimeout(() => this.renderChart(), 200); // fixing a bug, initial rendering was not full screen
@@ -92,20 +94,22 @@ export class StatsComponent implements OnInit, AfterViewInit {
   fetchWorkouts() {
     this.newWorkoutService.getAllWorkouts().subscribe(res => {
         this.workouts = res.workouts;
-        this.renderChart();
         this.loading = false;
       }, error => console.log(error)
     );
   }
 
   renderChart() {
-    google.charts.load('current', {packages: ['line']});
-    google.charts.setOnLoadCallback(this.drawChart);
+    if (this.selectedExerciseTitle) {
+      const selectedExercises = this.selectOfExercise(this.selectedExerciseTitle);
+      this.zeroSetsOfExercise = this.maximumNumberOfApproaches(selectedExercises) === 0;
+      google.charts.load('current', {packages: ['line']});
+      google.charts.setOnLoadCallback(this.drawChart);
+    }
   }
 
   drawChart = () => {
     const selectedExercises = this.selectOfExercise(this.selectedExerciseTitle);
-
     const data = new google.visualization.DataTable();
     data.addColumn('date', 'Date');
     for (let i = 0; i < this.maximumNumberOfApproaches(selectedExercises); i++) {
@@ -131,25 +135,41 @@ export class StatsComponent implements OnInit, AfterViewInit {
     };
 
     const chart = new google.charts.Line(this.lineChart.nativeElement);
-
     chart.draw(data, google.charts.Line.convertOptions(options));
   }
 
   selectOfExercise(title: string) {
-    const selectedExercise = this.workouts.map(workout => {
-      return workout.exercises.map(exercise => exercise.title === title ? exercise : {exerciseApproaches: [{weight: null, reps: null}]});
+    let selectedExercise: (Exercise | { exerciseApproaches: { reps: null; weight: null }[]; title: null })[][];
+    selectedExercise = this.workouts.map(workout => {
+      return workout.exercises.map(exercise => exercise.title === title ? exercise : {
+        title: null,
+        exerciseApproaches: [{weight: null, reps: null}]
+      });
     });
-    return selectedExercise.map(exercise => exercise[0]);
+    // @ts-ignore
+    const exercises = selectedExercise.map(exercise => {
+      if (exercise.length !== 1) {
+        return exercise.filter(item => item.title === title);
+      } else {
+        return exercise;
+      }
+    });
+    return exercises.map(exercise => exercise[0]);
   }
 
   maximumNumberOfApproaches(exercises?: (Exercise | { exerciseApproaches: { reps: null; weight: null }[] })[]) {
     let max = 0;
-    exercises.forEach(exercise => {
-      if (max < exercise.exerciseApproaches.length) {
-        max = exercise.exerciseApproaches.length;
-      }
-    });
-    return max;
+    try {
+      exercises.forEach(exercise => {
+        if (max < exercise.exerciseApproaches.length) {
+          max = exercise.exerciseApproaches.length;
+        }
+      });
+      return max;
+    } catch (exception) {
+      this.zeroSetsOfExercise = true;
+      return max;
+    }
   }
 
   formattingApproaches(exercises: (Exercise | { exerciseApproaches: { reps: null; weight: null }[] })[]) {
